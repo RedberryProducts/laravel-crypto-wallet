@@ -1,8 +1,6 @@
 <?php
 
-namespace Khomeriki\BitgoWallet\Data\Requests;
-
-use Khomeriki\BitgoWallet\Data\Data;
+namespace Khomeriki\BitgoWallet\Data;
 
 class GenerateWallet extends Data
 {

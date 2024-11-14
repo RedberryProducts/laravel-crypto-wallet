@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Http;
 
 trait InteractsWithBitgo
 {
-    protected static function httpGet(string $endpoint): Response
+    protected static function httpGet(string $endpoint, ?array $data = []): Response
     {
         /** @phpstan-ignore-next-line */
-        return Http::bitgoApi()->get($endpoint);
+        return Http::bitgoApi()->get($endpoint, $data);
     }
 
     protected static function httPost(string $endpoint, array $data): Response

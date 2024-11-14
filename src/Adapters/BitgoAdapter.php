@@ -4,8 +4,8 @@ namespace Khomeriki\BitgoWallet\Adapters;
 
 use Illuminate\Http\Client\Response;
 use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
-use Khomeriki\BitgoWallet\Data\Requests\GenerateWallet;
-use Khomeriki\BitgoWallet\Data\Requests\TransferData;
+use Khomeriki\BitgoWallet\Data\GenerateWallet;
+use Khomeriki\BitgoWallet\Data\TransferData;
 use Khomeriki\BitgoWallet\Traits\InteractsWithBitgo;
 
 class BitgoAdapter implements BitgoAdapterContract
@@ -111,10 +111,10 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    public function getMaximumSpendable(string $coin, string $walletId): ?array
+    public function getMaximumSpendable(string $coin, string $walletId, ?array $params = []): ?array
     {
         $endpoint = "$coin/wallet/$walletId/maximumSpendable";
-        $response = $this->httpGet(self::API_PREFIX.$endpoint);
+        $response = $this->httpGet(self::API_PREFIX.$endpoint, $params);
 
         return $response->json();
     }
@@ -123,6 +123,14 @@ class BitgoAdapter implements BitgoAdapterContract
     {
         $endpoint = "$coin/wallet/$walletId/transfer";
         $response = $this->httpGet(self::API_PREFIX.$endpoint);
+
+        return $response->json();
+    }
+
+    public function consolidate(string $coin, string $walletId, ?array $params = []): ?array
+    {
+        $endpoint = "$coin/wallet/$walletId/consolidateunspents";
+        $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, $params);
 
         return $response->json();
     }

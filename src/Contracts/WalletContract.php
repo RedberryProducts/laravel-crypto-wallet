@@ -3,10 +3,10 @@
 namespace Khomeriki\BitgoWallet\Contracts;
 
 use Illuminate\Support\Collection;
-use Khomeriki\BitgoWallet\Data\Requests\TransferData;
 use Khomeriki\BitgoWallet\Data\Responses\Address;
 use Khomeriki\BitgoWallet\Data\Responses\Transfer;
 use Khomeriki\BitgoWallet\Data\Responses\Webhook;
+use Khomeriki\BitgoWallet\Data\TransferData;
 
 interface WalletContract
 {
@@ -26,7 +26,7 @@ interface WalletContract
 
     public function sendTransfer(TransferData $transfer): ?array;
 
-    public function getMaximumSpendable(): ?array;
+    public function getMaximumSpendable(?array $params = []): ?array;
 
     public function getTransfers(): ?array;
 }

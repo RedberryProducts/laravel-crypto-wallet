@@ -5,12 +5,12 @@ namespace Khomeriki\BitgoWallet;
 use Illuminate\Support\Collection;
 use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
 use Khomeriki\BitgoWallet\Contracts\WalletContract;
-use Khomeriki\BitgoWallet\Data\Requests\GenerateWallet;
-use Khomeriki\BitgoWallet\Data\Requests\TransferData;
+use Khomeriki\BitgoWallet\Data\GenerateWallet;
 use Khomeriki\BitgoWallet\Data\Responses\Address;
 use Khomeriki\BitgoWallet\Data\Responses\Transfer;
 use Khomeriki\BitgoWallet\Data\Responses\Wallet as WalletData;
 use Khomeriki\BitgoWallet\Data\Responses\Webhook;
+use Khomeriki\BitgoWallet\Data\TransferData;
 
 class Wallet extends WalletData implements WalletContract
 {
@@ -250,9 +250,9 @@ class Wallet extends WalletData implements WalletContract
         );
     }
 
-    public function getMaximumSpendable(): ?array
+    public function getMaximumSpendable(?array $params = []): ?array
     {
-        return $this->adapter->getMaximumSpendable($this->coin, $this->id);
+        return $this->adapter->getMaximumSpendable($this->coin, $this->id, $params);
     }
 
     public function getTransfers(?array $params = []): ?array
@@ -262,5 +262,10 @@ class Wallet extends WalletData implements WalletContract
         return array_map(function ($item) {
             return Transfer::fromArray($item);
         }, $walletTransfers['transfers']);
+    }
+
+    public function consolidate(?array $params): ?array
+    {
+        return $this->adapter->consolidate($this->coin, $this->id, $params);
     }
 }

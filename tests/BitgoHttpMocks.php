@@ -49,12 +49,20 @@ trait BitgoHttpMocks
             ],
         ];
 
+        $maximumSpendable = [
+            'maximumSpendable' => '47523',
+            'miningFee' => '1026',
+            'payGoFee' => '0',
+            'coin' => 'tbtc',
+        ];
+
         Http::preventStrayRequests();
         $testingUrl = config('bitgo.testnet_api_url').'/'.config('bitgo.v2_api_prefix');
         $expressUrl = config('bitgo.express_api_url').'/'.config('bitgo.v2_api_prefix');
         Http::fake([
             "{$testingUrl}tbtc/wallet/62b1ba9f2c7e8e000781fb2ae5c5dbff/transfer" => Http::response(['transfers' => [$webhookData]]),
             "{$testingUrl}tbtc/wallet/62b1ba9f2c7e8e000781fb2ae5c5dbff/transfer/62b1c6168e0b9e0007b421314aba0654" => Http::response($webhookData),
+            "{$testingUrl}tbtc/wallet/62b1ba9f2c7e8e000781fb2ae5c5dbff/maximumSpendable?feeRate=0" => Http::response($maximumSpendable),
             "{$expressUrl}tbtc/wallet/generate" => Http::response(['wallet' => $walletData]),
             "{$testingUrl}wallets*" => Http::response(['wallets' => [$walletData]]),
             "{$testingUrl}market/latest*" => Http::response($exchangeRateMock),
@@ -67,6 +75,7 @@ trait BitgoHttpMocks
                 'user' => 'fake',
             ]),
             "{$expressUrl}tbtc/wallet/wallet-id/sendmany" => Http::response([]),
+            "{$expressUrl}tbtc/wallet/62b1ba9f2c7e8e000781fb2ae5c5dbff/consolidateunspents" => Http::response([]),
         ]);
     }
 }

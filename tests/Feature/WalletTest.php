@@ -1,14 +1,14 @@
 <?php
 
-use Khomeriki\BitgoWallet\Data\Requests\TransferData;
-use Khomeriki\BitgoWallet\Data\Requests\TransferRecipientData;
 use Khomeriki\BitgoWallet\Data\Responses\Transfer;
 use Khomeriki\BitgoWallet\Data\Responses\Webhook;
+use Khomeriki\BitgoWallet\Data\TransferData;
+use Khomeriki\BitgoWallet\Data\TransferRecipientData;
 use Khomeriki\BitgoWallet\Facades\Wallet;
 
 it('can generate wallet', function () {
     $wallet = Wallet::init('tbtc')
-        ->generate('testing label', 'testing pass', '66d1ad21f27a81b56df03a87f84ad57d');
+        ->generate('testing label', 'testing pass', '64065d3743b252a0e029e2faa945e233');
 
     expect($wallet)
         ->toBeObject()
@@ -32,7 +32,7 @@ it('can get wallet transfer', function () {
 it('can generate wallet with webhook', function () {
     $webhook = Wallet::init('tbtc')
         ->generate('wallet with webhook', 'testing pass', 'asd')
-        ->addWebhook(0);
+        ->addWebhook(6, 'http://localhost/api/callback');
 
     expect($webhook)
         ->toBeObject()
@@ -113,4 +113,24 @@ it('can send transaction', closure: function () {
 
     $res = Wallet::init('tbtc', 'wallet-id')->sendTransfer($transferData);
     expect($res)->toBeArray();
+});
+
+it('can get a maximum spendable amount of the wallet', function () {
+    $result = Wallet::init('tbtc', '62b1ba9f2c7e8e000781fb2ae5c5dbff')->getMaximumSpendable([
+        'feeRate' => 0,
+    ]);
+
+    expect($result)->toBeArray();
+});
+
+it('can consolidate wallet balance', function () {
+    $result = Wallet::init('tbtc', '62b1ba9f2c7e8e000781fb2ae5c5dbff')->consolidate([
+        'walletPassphrase' => 'test',
+        'bulk' => true,
+        'minValue' => '0',
+        'minHeight' => 0,
+        'minConfirms' => 0,
+    ]);
+
+    expect($result)->toBeArray();
 });

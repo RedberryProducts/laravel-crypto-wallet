@@ -1,10 +1,10 @@
 <?php
 
-namespace Khomeriki\BitgoWallet\Contracts;
+namespace RedberryProducts\CryptoWallet\Contracts;
 
 use Illuminate\Http\Client\Response;
-use Khomeriki\BitgoWallet\Data\GenerateWallet;
-use Khomeriki\BitgoWallet\Data\TransferData;
+use RedberryProducts\CryptoWallet\Data\GenerateWallet;
+use RedberryProducts\CryptoWallet\Data\TransferData;
 
 interface BitgoAdapterContract
 {

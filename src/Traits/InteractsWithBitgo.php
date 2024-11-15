@@ -1,6 +1,6 @@
 <?php
 
-namespace Khomeriki\BitgoWallet\Traits;
+namespace RedberryProducts\CryptoWallet\Traits;
 
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;

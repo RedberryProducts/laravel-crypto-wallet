@@ -1,12 +1,12 @@
 <?php
 
-namespace Khomeriki\BitgoWallet\Tests;
+namespace RedberryProducts\CryptoWallet\Tests;
 
-use Khomeriki\BitgoWallet\Adapters\BitgoAdapter;
-use Khomeriki\BitgoWallet\BitgoServiceProvider;
-use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
-use Khomeriki\BitgoWallet\Contracts\WalletContract;
 use Orchestra\Testbench\TestCase as Orchestra;
+use RedberryProducts\CryptoWallet\Adapters\BitgoAdapter;
+use RedberryProducts\CryptoWallet\Contracts\BitgoAdapterContract;
+use RedberryProducts\CryptoWallet\Contracts\WalletContract;
+use RedberryProducts\CryptoWallet\CryptoWalletServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -19,8 +19,8 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
-        $this->adapter = new BitgoAdapter();
-        if (config('bitgo.use_mocks')) {
+        $this->adapter = new BitgoAdapter;
+        if (config('crypto-wallet.use_mocks')) {
             self::setupMocks();
         }
     }
@@ -28,7 +28,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app): array
     {
         return [
-            BitgoServiceProvider::class,
+            CryptoWalletServiceProvider::class,
         ];
     }
 

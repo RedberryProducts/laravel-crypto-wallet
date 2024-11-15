@@ -1,17 +1,17 @@
 <?php
 
-namespace Khomeriki\BitgoWallet\Facades;
+namespace RedberryProducts\CryptoWallet\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static all()
- * @method static getByCoin(string $string)
+ * @method static \RedberryProducts\CryptoWallet\ExchangeRate all()
+ * @method static \RedberryProducts\CryptoWallet\ExchangeRate getByCoin(string $string)
  */
 class ExchangeRate extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \Khomeriki\BitgoWallet\ExchangeRate::class;
+        return \RedberryProducts\CryptoWallet\ExchangeRate::class;
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Khomeriki\BitgoWallet;
+namespace RedberryProducts\CryptoWallet;
 
 use Illuminate\Support\Arr;
-use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
+use RedberryProducts\CryptoWallet\Contracts\BitgoAdapterContract;
 
 class ExchangeRate
 {
@@ -17,7 +17,7 @@ class ExchangeRate
     public function __construct(BitgoAdapterContract $adapter)
     {
         $this->adapter = $adapter;
-        $this->coin = config('bitgo.default_coin');
+        $this->coin = config('crypto-wallet.default_coin');
     }
 
     public function all(): ?array

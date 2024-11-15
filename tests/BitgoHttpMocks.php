@@ -1,6 +1,6 @@
 <?php
 
-namespace Khomeriki\BitgoWallet\Tests;
+namespace RedberryProducts\CryptoWallet\Tests;
 
 use Illuminate\Support\Facades\Http;
 
@@ -57,8 +57,8 @@ trait BitgoHttpMocks
         ];
 
         Http::preventStrayRequests();
-        $testingUrl = config('bitgo.testnet_api_url').'/'.config('bitgo.v2_api_prefix');
-        $expressUrl = config('bitgo.express_api_url').'/'.config('bitgo.v2_api_prefix');
+        $testingUrl = config('crypto-wallet.testnet_api_url').'/'.config('crypto-wallet.v2_api_prefix');
+        $expressUrl = config('crypto-wallet.express_api_url').'/'.config('crypto-wallet.v2_api_prefix');
         Http::fake([
             "{$testingUrl}tbtc/wallet/62b1ba9f2c7e8e000781fb2ae5c5dbff/transfer" => Http::response(['transfers' => [$webhookData]]),
             "{$testingUrl}tbtc/wallet/62b1ba9f2c7e8e000781fb2ae5c5dbff/transfer/62b1c6168e0b9e0007b421314aba0654" => Http::response($webhookData),

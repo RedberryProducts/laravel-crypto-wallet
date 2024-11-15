@@ -1,10 +1,10 @@
 <?php
 
-use Khomeriki\BitgoWallet\Data\Responses\Transfer;
-use Khomeriki\BitgoWallet\Data\Responses\Webhook;
-use Khomeriki\BitgoWallet\Data\TransferData;
-use Khomeriki\BitgoWallet\Data\TransferRecipientData;
-use Khomeriki\BitgoWallet\Facades\Wallet;
+use RedberryProducts\CryptoWallet\Data\Responses\Transfer;
+use RedberryProducts\CryptoWallet\Data\Responses\Webhook;
+use RedberryProducts\CryptoWallet\Data\TransferData;
+use RedberryProducts\CryptoWallet\Data\TransferRecipientData;
+use RedberryProducts\CryptoWallet\Facades\Wallet;
 
 it('can generate wallet', function () {
     $wallet = Wallet::init('tbtc')
@@ -53,7 +53,7 @@ it('can list all the available wallets', function () {
     ]);
     $wallet = $wallets->first();
     expect($wallet)
-        ->toBeInstanceOf(\Khomeriki\BitgoWallet\Wallet::class)
+        ->toBeInstanceOf(\RedberryProducts\CryptoWallet\Wallet::class)
         ->toHaveProperties(['coin', 'id']);
 });
 

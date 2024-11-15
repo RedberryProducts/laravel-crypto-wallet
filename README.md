@@ -4,7 +4,7 @@ This package is a Laravel wrapper for BitGo's API, allowing developers to intera
 
 ## 📋 Overview
 
-The `Khomeriki\BitgoWallet` package provides a set of features to:
+The `RedberryProducts\CryptoWallet` package provides a set of features to:
 
 - Generate, manage, and list wallets
 - Fetch and consolidate wallet balances
@@ -19,7 +19,7 @@ The `Khomeriki\BitgoWallet` package provides a set of features to:
 - **Balance Management**: Get spendable amounts, consolidate balances, and monitor wallet details.
 
 ## Setting Up BitGo Express with Docker
-To use the `Khomeriki\BitgoWallet` package, BitGo Express needs to be running as a local service. BitGo Express acts as a bridge between your application and the BitGo API, securely managing wallet interactions and signing transactions.
+To use the `RedberryProducts\CryptoWallet` package, BitGo Express needs to be running as a local service. BitGo Express acts as a bridge between your application and the BitGo API, securely managing wallet interactions and signing transactions.
 
 Pulling the BitGo Express Docker Image
 First, pull the latest BitGo Express image from Docker Hub:
@@ -31,13 +31,13 @@ First, pull the latest BitGo Express image from Docker Hub:
 1. Install via Composer:
     
     ```bash
-    composer require khomeriki/bitgo-wallet
+    composer require redberry-products/laravel-bitgo-wallet
     ```
     
 2. Publish the configuration file and set up your BitGo API credentials:
     
     ```bash
-    php artisan vendor:publish --provider="Khomeriki\BitgoWallet\BitgoWalletServiceProvider"
+    php artisan vendor:publish --provider="RedberryProducts\CryptoWallet\CryptoWalletServiceProvider"
     ```
     
 3. Update `.env` file with BitGo credentials:
@@ -58,7 +58,7 @@ The following sections provide usage examples for core features of the package.
 Initialize a wallet instance for a specific coin:
 
 ```php
-use Khomeriki\BitgoWallet\Facades\Wallet;
+use RedberryProducts\CryptoWallet\Facades\Wallet;
 
 // Initialize an existing wallet
 $wallet = Wallet::init('tbtc', 'wallet-id');
@@ -96,8 +96,8 @@ $address = $wallet->generateAddress('Deposit Address');
 Create a transfer to multiple recipients:
 
 ```php
-use Khomeriki\BitgoWallet\Data\TransferData;
-use Khomeriki\BitgoWallet\Data\TransferRecipientData;
+use RedberryProducts\CryptoWallet\Data\TransferData;
+use RedberryProducts\CryptoWallet\Data\TransferRecipientData;
 
 $transferData = TransferData::fromArray([
     'walletPassphrase' => 'strongpassphrase',

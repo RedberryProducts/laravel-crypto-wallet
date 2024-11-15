@@ -1,8 +1,8 @@
 <?php
 
-namespace Khomeriki\BitgoWallet\Data\Responses;
+namespace RedberryProducts\CryptoWallet\Data\Responses;
 
-use Khomeriki\BitgoWallet\Data\Data;
+use RedberryProducts\CryptoWallet\Data\Data;
 
 class Freezy extends Data
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Khomeriki\BitgoWallet\Contracts;
+namespace RedberryProducts\CryptoWallet\Contracts;
 
 use Illuminate\Support\Collection;
-use Khomeriki\BitgoWallet\Data\Responses\Address;
-use Khomeriki\BitgoWallet\Data\Responses\Transfer;
-use Khomeriki\BitgoWallet\Data\Responses\Webhook;
-use Khomeriki\BitgoWallet\Data\TransferData;
+use RedberryProducts\CryptoWallet\Data\Responses\Address;
+use RedberryProducts\CryptoWallet\Data\Responses\Transfer;
+use RedberryProducts\CryptoWallet\Data\Responses\Webhook;
+use RedberryProducts\CryptoWallet\Data\TransferData;
 
 interface WalletContract
 {

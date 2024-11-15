@@ -1,16 +1,16 @@
 <?php
 
-namespace Khomeriki\BitgoWallet;
+namespace RedberryProducts\CryptoWallet;
 
 use Illuminate\Support\Collection;
-use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
-use Khomeriki\BitgoWallet\Contracts\WalletContract;
-use Khomeriki\BitgoWallet\Data\GenerateWallet;
-use Khomeriki\BitgoWallet\Data\Responses\Address;
-use Khomeriki\BitgoWallet\Data\Responses\Transfer;
-use Khomeriki\BitgoWallet\Data\Responses\Wallet as WalletData;
-use Khomeriki\BitgoWallet\Data\Responses\Webhook;
-use Khomeriki\BitgoWallet\Data\TransferData;
+use RedberryProducts\CryptoWallet\Contracts\BitgoAdapterContract;
+use RedberryProducts\CryptoWallet\Contracts\WalletContract;
+use RedberryProducts\CryptoWallet\Data\GenerateWallet;
+use RedberryProducts\CryptoWallet\Data\Responses\Address;
+use RedberryProducts\CryptoWallet\Data\Responses\Transfer;
+use RedberryProducts\CryptoWallet\Data\Responses\Wallet as WalletData;
+use RedberryProducts\CryptoWallet\Data\Responses\Webhook;
+use RedberryProducts\CryptoWallet\Data\TransferData;
 
 class Wallet extends WalletData implements WalletContract
 {
@@ -166,7 +166,7 @@ class Wallet extends WalletData implements WalletContract
     public function __construct(BitgoAdapterContract $adapter)
     {
         $this->adapter = $adapter;
-        $this->coin = config('bitgo.default_coin');
+        $this->coin = config('crypto-wallet.default_coin');
     }
 
     private function setProperties(array $propertyList): void

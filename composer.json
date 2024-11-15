@@ -1,5 +1,5 @@
 {
-    "name": "khomerikik/laravel-bitgo-wallet",
+    "name": "redberry-products/laravel-bitgo-wallet",
     "description": "Bitgo blockchain service integration for laravel",
     "keywords": [
         "bitgo",
@@ -8,7 +8,7 @@
         "khomeriki",
         "laravel"
     ],
-    "homepage": "https://github.com/KhomerikiK/laravel-bitgo-wallet",
+    "homepage": "https://github.com/RedberryProducts/laravel-crypto-wallet",
     "license": "MIT",
     "authors": [
         {
@@ -22,7 +22,7 @@
         "illuminate/contracts": ">=9.0",
         "illuminate/support": ">=9.11",
         "spatie/laravel-package-tools": ">=1.9.2",
-      "ext-readline": "*"
+        "ext-readline": "*"
     },
     "require-dev": {
         "jetbrains/phpstorm-attributes": ">=1.0",
@@ -41,12 +41,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Khomeriki\\BitgoWallet\\": "src"
+            "RedberryProducts\\CryptoWallet\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Khomeriki\\BitgoWallet\\Tests\\": "tests"
+            "RedberryProducts\\CryptoWallet\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -64,10 +64,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Khomeriki\\BitgoWallet\\BitgoServiceProvider"
+                "RedberryProducts\\CryptoWallet\\CryptoWalletServiceProvider"
             ],
             "aliases": {
-                "Wallet": "Khomeriki\\BitgoWallet\\Facades\\Wallet"
+                "Wallet": "RedberryProducts\\CryptoWallet\\Facades\\Wallet"
             }
         }
     }

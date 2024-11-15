@@ -1,5 +1,5 @@
 <?php
 
-use Khomeriki\BitgoWallet\Tests\TestCase;
+use RedberryProducts\CryptoWallet\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);

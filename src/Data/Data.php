@@ -1,6 +1,6 @@
 <?php
 
-namespace Khomeriki\BitgoWallet\Data;
+namespace RedberryProducts\CryptoWallet\Data;
 
 abstract class Data
 {
@@ -10,7 +10,7 @@ abstract class Data
     public static function fromArray(array $payload): static
     {
         $dataClass = static::class;
-        $dto = new $dataClass();
+        $dto = new $dataClass;
         foreach ($payload as $key => $value) {
             if (property_exists($dto, $key)) {
                 $dto->$key = $value;

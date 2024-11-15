@@ -1,6 +1,6 @@
 <?php
 
-namespace Khomeriki\BitgoWallet\Data;
+namespace RedberryProducts\CryptoWallet\Data;
 
 final class TransferRecipientData extends Data
 {

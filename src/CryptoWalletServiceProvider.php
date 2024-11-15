@@ -1,16 +1,16 @@
 <?php
 
-namespace Khomeriki\BitgoWallet;
+namespace RedberryProducts\CryptoWallet;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
-use Khomeriki\BitgoWallet\Adapters\BitgoAdapter;
-use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
+use RedberryProducts\CryptoWallet\Adapters\BitgoAdapter;
+use RedberryProducts\CryptoWallet\Contracts\BitgoAdapterContract;
 
 /**
- * BitgoServiceProvider is the service provider for the Bitgo Wallet package.
+ * CryptoWalletServiceProvider is the service provider for the Bitgo Wallet package.
  */
-class BitgoServiceProvider extends ServiceProvider
+class CryptoWalletServiceProvider extends ServiceProvider
 {
     /**
      * Register any package services.
@@ -18,8 +18,8 @@ class BitgoServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/bitgo.php',
-            'bitgo'
+            __DIR__.'/../config/crypto-wallet.php',
+            'crypto-wallet'
         );
 
         $this->registerBitgoAdapter();
@@ -67,7 +67,7 @@ class BitgoServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/bitgo.php' => config_path('bitgo.php'),
+            __DIR__.'/../config/crypto-wallet.php' => config_path('crypto-wallet.php'),
         ], 'bitgo-config');
 
         $this->registerHttpMacros();
@@ -78,18 +78,18 @@ class BitgoServiceProvider extends ServiceProvider
      */
     public function registerHttpMacros()
     {
-        $apiUrl = config('bitgo.testnet') ? config('bitgo.testnet_api_url') : config('bitgo.mainnet_api_url');
+        $apiUrl = config('crypto-wallet.testnet') ? config('crypto-wallet.testnet_api_url') : config('crypto-wallet.mainnet_api_url');
 
         Http::macro('bitgoApi', function () use ($apiUrl) {
             return Http::withHeaders([
-                'Authorization' => 'Bearer '.config('bitgo.api_key'),
+                'Authorization' => 'Bearer '.config('crypto-wallet.api_key'),
             ])->baseUrl("{$apiUrl}");
         });
 
         Http::macro('bitgoExpressApi', function () {
             return Http::withHeaders([
-                'Authorization' => 'Bearer '.config('bitgo.api_key'),
-            ])->baseUrl(config('bitgo.express_api_url'));
+                'Authorization' => 'Bearer '.config('crypto-wallet.api_key'),
+            ])->baseUrl(config('crypto-wallet.express_api_url'));
         });
     }
 }

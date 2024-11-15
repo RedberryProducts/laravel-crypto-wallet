@@ -1,6 +1,6 @@
 <?php
 
-use Khomeriki\BitgoWallet\Facades\ExchangeRate;
+use RedberryProducts\CryptoWallet\Facades\ExchangeRate;
 
 it('can fetch exchange rates', function () {
     $res = ExchangeRate::all();

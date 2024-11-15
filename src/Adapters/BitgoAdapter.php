@@ -1,12 +1,12 @@
 <?php
 
-namespace Khomeriki\BitgoWallet\Adapters;
+namespace RedberryProducts\CryptoWallet\Adapters;
 
 use Illuminate\Http\Client\Response;
-use Khomeriki\BitgoWallet\Contracts\BitgoAdapterContract;
-use Khomeriki\BitgoWallet\Data\GenerateWallet;
-use Khomeriki\BitgoWallet\Data\TransferData;
-use Khomeriki\BitgoWallet\Traits\InteractsWithBitgo;
+use RedberryProducts\CryptoWallet\Contracts\BitgoAdapterContract;
+use RedberryProducts\CryptoWallet\Data\GenerateWallet;
+use RedberryProducts\CryptoWallet\Data\TransferData;
+use RedberryProducts\CryptoWallet\Traits\InteractsWithBitgo;
 
 class BitgoAdapter implements BitgoAdapterContract
 {
@@ -63,7 +63,7 @@ class BitgoAdapter implements BitgoAdapterContract
 
     public function addWalletWebhook(string $coin, string $walletId, int $numConfirmations = 0, ?string $callbackUrl = null): ?array
     {
-        $callbackUrl = $callbackUrl ?: config('bitgo.webhook_callback_url');
+        $callbackUrl = $callbackUrl ?: config('crypto-wallet.webhook_callback_url');
         $endpoint = "$coin/wallet/$walletId/webhooks";
         $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, [
             'type' => 'transfer', //TODO::should be dynamic

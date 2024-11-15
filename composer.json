@@ -1,6 +1,6 @@
 {
-    "name": "redberry-products/laravel-bitgo-wallet",
-    "description": "Bitgo blockchain service integration for laravel",
+    "name": "redberryproducts/laravel-crypto-wallet",
+    "description": "blockchain service integration for laravel",
     "keywords": [
         "bitgo",
         "wallet",

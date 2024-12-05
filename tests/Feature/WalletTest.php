@@ -1,9 +1,6 @@
 <?php
 
-use RedberryProducts\CryptoWallet\Data\Responses\Transfer;
-use RedberryProducts\CryptoWallet\Data\Responses\Webhook;
-use RedberryProducts\CryptoWallet\Data\TransferData;
-use RedberryProducts\CryptoWallet\Data\TransferRecipientData;
+use RedberryProducts\CryptoWallet\Data\Transfer;
 use RedberryProducts\CryptoWallet\Facades\Wallet;
 
 it('can generate wallet', function () {
@@ -16,27 +13,48 @@ it('can generate wallet', function () {
         ->toHaveProperty('id');
 });
 
+//it can get wallet by id
+it('can get wallet by id', function () {
+    $wallet = Wallet::init('tbtc', 'wallet-id')
+        ->get();
+
+    expect($wallet)
+        ->toBeObject()
+        ->toHaveProperty('coin', 'tbtc')
+        ->toHaveProperty('id', 'wallet-id');
+});
+
 it('can get wallet transfers', function () {
-    $transfers = Wallet::init('tbtc', '62b1ba9f2c7e8e000781fb2ae5c5dbff')
+    $transfers = Wallet::init('tbtc', 'wallet-id')
         ->getTransfers();
     expect($transfers)->toBeArray();
 });
 
+it('can generate address on the wallet', function () {
+    $address = Wallet::init('tbtc', 'wallet-id')
+        ->generateAddress('testing label');
+
+    expect($address)
+        ->toBeInstanceOf(\RedberryProducts\CryptoWallet\Data\Data::class)
+        ->toHaveProperty('id')
+        ->toHaveProperty('address')
+        ->toHaveProperty('driverObject');
+});
+
 it('can get wallet transfer', function () {
-    $transfer = Wallet::init('tbtc', '62b1ba9f2c7e8e000781fb2ae5c5dbff')
-        ->getTransfer('62b1c6168e0b9e0007b421314aba0654');
+    $transfer = Wallet::init('tbtc', 'wallet-id')
+        ->getTransfer('transfer-id');
 
     expect($transfer)->toBeInstanceOf(Transfer::class);
 });
 
 it('can generate wallet with webhook', function () {
     $webhook = Wallet::init('tbtc')
-        ->generate('wallet with webhook', 'testing pass', 'asd')
-        ->addWebhook(6, 'http://localhost/api/callback');
+        ->generate('wallet with webhook', 'testing pass', '64065d3743b252a0e029e2faa945e233')
+        ->addWebhook(6, 'https://www.blockchain.com/');
 
     expect($webhook)
-        ->toBeObject()
-        ->toBeInstanceOf(Webhook::class);
+        ->toBeObject();
 });
 
 it('inits wallet correctly', function () {
@@ -51,72 +69,32 @@ it('can list all the available wallets', function () {
     $wallets = Wallet::listAll(params: [
         'expandBalance' => 'true',
     ]);
-    $wallet = $wallets->first();
-    expect($wallet)
-        ->toBeInstanceOf(\RedberryProducts\CryptoWallet\Wallet::class)
+    expect($wallets)
+        ->toBeArray()
+        ->and($wallets[0])
         ->toHaveProperties(['coin', 'id']);
 });
 
-it('can build TransferRecipient object', function () {
-    $recipient = TransferRecipientData::fromArray([
-        'amount' => 4934,
-        'address' => 'address',
-    ]);
-    expect($recipient)
-        ->toHaveProperty('amount', 4934)
-        ->toHaveProperty('address', 'address');
-});
-
-it('can build transfer object', function () {
-    $transferData = TransferData::fromArray([
-        'walletPassphrase' => 'test',
-        'recipients' => [
-            TransferRecipientData::fromArray([
-                'amount' => 4934,
-                'address' => 'address',
-            ]),
-            TransferRecipientData::fromArray([
-                'amount' => 4931,
-                'address' => 'address1',
-            ]),
-        ],
-    ]);
-
-    expect($transferData)
-        ->toHaveProperty('walletPassphrase', 'test')
-        ->toHaveProperty('recipients', [
-            TransferRecipientData::fromArray([
-                'amount' => 4934,
-                'address' => 'address',
-            ]),
-            TransferRecipientData::fromArray([
-                'amount' => 4931,
-                'address' => 'address1',
-            ]),
-        ]);
-});
-
 it('can send transaction', closure: function () {
-    $transferData = TransferData::fromArray([
+    $transferData = [
         'walletPassphrase' => 'test',
         'recipients' => [
-            TransferRecipientData::fromArray([
+            [
                 'amount' => 333,
                 'address' => 'dddd',
-            ]),
-            TransferRecipientData::fromArray([
+            ],
+            [
                 'amount' => 333,
                 'address' => 'dddd',
-            ]),
+            ],
         ],
-    ]);
-
-    $res = Wallet::init('tbtc', 'wallet-id')->sendTransfer($transferData);
+    ];
+    $res = Wallet::init('tbtc', 'wallet-id')->sendTransferToMany($transferData);
     expect($res)->toBeArray();
 });
 
 it('can get a maximum spendable amount of the wallet', function () {
-    $result = Wallet::init('tbtc', '62b1ba9f2c7e8e000781fb2ae5c5dbff')->getMaximumSpendable([
+    $result = Wallet::init('tbtc', 'wallet-id')->getMaximumSpendable([
         'feeRate' => 0,
     ]);
 
@@ -124,7 +102,7 @@ it('can get a maximum spendable amount of the wallet', function () {
 });
 
 it('can consolidate wallet balance', function () {
-    $result = Wallet::init('tbtc', '62b1ba9f2c7e8e000781fb2ae5c5dbff')->consolidate([
+    $result = Wallet::init('tbtc', 'wallet-id')->consolidate([
         'walletPassphrase' => 'test',
         'bulk' => true,
         'minValue' => '0',

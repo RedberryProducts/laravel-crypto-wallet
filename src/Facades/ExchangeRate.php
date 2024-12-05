@@ -3,15 +3,16 @@
 namespace RedberryProducts\CryptoWallet\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use RedberryProducts\CryptoWallet\Contracts\ExchangeRateContract;
 
 /**
- * @method static \RedberryProducts\CryptoWallet\ExchangeRate all()
- * @method static \RedberryProducts\CryptoWallet\ExchangeRate getByCoin(string $string)
+ * @method static ExchangeRateContract all()
+ * @method static ExchangeRateContract getByCoin(string $string)
  */
 class ExchangeRate extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \RedberryProducts\CryptoWallet\ExchangeRate::class;
+        return ExchangeRateContract::class;
     }
 }

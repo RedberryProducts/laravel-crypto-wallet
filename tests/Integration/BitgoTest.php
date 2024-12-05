@@ -1,19 +1,18 @@
 <?php
 
 test('ping Bitgo rest api', function () {
-    $response = $this->adapter->ping();
+    $response = $this->client->ping();
     $this->assertTrue($response->ok());
 });
 
 test('ping BitgoExpress rest api', function () {
-    $response = $this->adapter->pingExpress();
+    $response = $this->client->pingExpress();
     $this->assertTrue($response->ok());
 });
 
 it('can detect current bitgo user', function () {
-    $response = $this->adapter->me();
-    $this->assertTrue($response->ok());
-    expect($response->json())
+    $response = $this->client->me();
+    expect($response)
         ->toBeArray()
         ->toHaveKey('user');
 });

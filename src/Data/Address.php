@@ -2,9 +2,9 @@
 
 namespace RedberryProducts\CryptoWallet\Data;
 
-final class TransferRecipientData extends Data
+class Address extends Data
 {
-    public int $amount;
+    public string $id;
 
     public string $address;
 }

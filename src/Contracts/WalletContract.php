@@ -2,11 +2,8 @@
 
 namespace RedberryProducts\CryptoWallet\Contracts;
 
-use Illuminate\Support\Collection;
-use RedberryProducts\CryptoWallet\Data\Responses\Address;
-use RedberryProducts\CryptoWallet\Data\Responses\Transfer;
-use RedberryProducts\CryptoWallet\Data\Responses\Webhook;
-use RedberryProducts\CryptoWallet\Data\TransferData;
+use RedberryProducts\CryptoWallet\Data\Address;
+use RedberryProducts\CryptoWallet\Data\Transfer;
 
 interface WalletContract
 {
@@ -16,15 +13,15 @@ interface WalletContract
 
     public function get(): self;
 
-    public function addWebhook(int $numConfirmations = 0): Webhook;
+    public function addWebhook(int $numConfirmations = 0);
 
     public function generateAddress(?string $label = null): Address;
 
     public function getTransfer(string $transferId): Transfer;
 
-    public function listAll(?string $coin = null, ?array $params = []): Collection;
+    public function listAll(?string $coin = null, ?array $params = []): array;
 
-    public function sendTransfer(TransferData $transfer): ?array;
+    public function sendTransferToMany(array $transfer): ?array;
 
     public function getMaximumSpendable(?array $params = []): ?array;
 

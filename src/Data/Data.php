@@ -4,9 +4,18 @@ namespace RedberryProducts\CryptoWallet\Data;
 
 abstract class Data
 {
-    /**
-     * convert data from array to object
-     */
+    public object|array $driverObject;
+
+    //set properties from constructor
+    public function __construct(array $data = [])
+    {
+        foreach ($data as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
+    }
+
     public static function fromArray(array $payload): static
     {
         $dataClass = static::class;

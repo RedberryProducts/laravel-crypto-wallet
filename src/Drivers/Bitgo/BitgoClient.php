@@ -1,22 +1,19 @@
 <?php
 
-namespace RedberryProducts\CryptoWallet\Adapters;
+namespace RedberryProducts\CryptoWallet\Drivers\Bitgo;
 
 use Illuminate\Http\Client\Response;
-use RedberryProducts\CryptoWallet\Contracts\BitgoAdapterContract;
-use RedberryProducts\CryptoWallet\Data\GenerateWallet;
-use RedberryProducts\CryptoWallet\Data\TransferData;
 use RedberryProducts\CryptoWallet\Traits\InteractsWithBitgo;
 
-class BitgoAdapter implements BitgoAdapterContract
+class BitgoClient
 {
     use InteractsWithBitgo;
 
     public const API_PREFIX = 'api/v2/';
 
-    public function me(): Response
+    public function me(): ?array
     {
-        return $this->httpGet(self::API_PREFIX.'user/me');
+        return $this->httpGet(self::API_PREFIX.'user/me')->json();
     }
 
     public function getExchangeRates(?string $coin = null): ?array
@@ -37,10 +34,10 @@ class BitgoAdapter implements BitgoAdapterContract
         return $this->httpGet(self::API_PREFIX.'ping');
     }
 
-    public function generateWallet(string $coin, GenerateWallet $generateWalletData): ?array
+    public function generateWallet(string $coin, array $generateWalletData): ?array
     {
         $endpoint = "$coin/wallet/generate";
-        $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, $generateWalletData->toArray());
+        $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, $generateWalletData);
 
         return $response->json();
     }
@@ -63,7 +60,7 @@ class BitgoAdapter implements BitgoAdapterContract
 
     public function addWalletWebhook(string $coin, string $walletId, int $numConfirmations = 0, ?string $callbackUrl = null): ?array
     {
-        $callbackUrl = $callbackUrl ?: config('crypto-wallet.webhook_callback_url');
+        $callbackUrl = $callbackUrl ?: config('crypto-wallet.drivers.bitgo.webhook_callback_url');
         $endpoint = "$coin/wallet/$walletId/webhooks";
         $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, [
             'type' => 'transfer', //TODO::should be dynamic
@@ -102,11 +99,10 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    public function sendTransactionToMany(string $coin, string $walletId, TransferData $transfer): ?array
+    public function sendTransactionToMany(string $coin, string $walletId, array $transferParams): ?array
     {
-        $body = (array) $transfer;
         $endpoint = "$coin/wallet/$walletId/sendmany";
-        $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, $body);
+        $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, $transferParams);
 
         return $response->json();
     }
@@ -119,7 +115,7 @@ class BitgoAdapter implements BitgoAdapterContract
         return $response->json();
     }
 
-    public function listTraWalletTransfers(string $coin, string $walletId): ?array
+    public function listWalletTransfers(string $coin, string $walletId): ?array
     {
         $endpoint = "$coin/wallet/$walletId/transfer";
         $response = $this->httpGet(self::API_PREFIX.$endpoint);

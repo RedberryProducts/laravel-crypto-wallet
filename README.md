@@ -96,16 +96,13 @@ $address = $wallet->generateAddress('Deposit Address');
 Create a transfer to multiple recipients:
 
 ```php
-use RedberryProducts\CryptoWallet\Data\TransferData;
-use RedberryProducts\CryptoWallet\Data\TransferRecipientData;
-
-$transferData = TransferData::fromArray([
+$transferData = [
     'walletPassphrase' => 'strongpassphrase',
     'recipients' => [
-        TransferRecipientData::fromArray(['amount' => 1000, 'address' => 'recipient-address']),
-        TransferRecipientData::fromArray(['amount' => 2000, 'address' => 'another-address']),
+        ['amount' => 1000, 'address' => 'recipient-address'],
+        ['amount' => 2000, 'address' => 'another-address'],
     ],
-]);
+];
 
 $response = $wallet->sendTransfer($transferData);
 ```

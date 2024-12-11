@@ -3,7 +3,7 @@
 namespace RedberryProducts\CryptoWallet\Drivers\Bitgo;
 
 use Illuminate\Http\Client\Response;
-use RedberryProducts\CryptoWallet\Traits\InteractsWithBitgo;
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\Traits\InteractsWithBitgo;
 
 class BitgoClient
 {

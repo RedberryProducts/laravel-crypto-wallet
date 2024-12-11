@@ -3,10 +3,7 @@
 namespace RedberryProducts\CryptoWallet;
 
 use Illuminate\Support\ServiceProvider;
-use RedberryProducts\CryptoWallet\Contracts\ExchangeRateContract;
-use RedberryProducts\CryptoWallet\Contracts\WalletContract;
-use RedberryProducts\CryptoWallet\Drivers\Bitgo\ExchangeRate;
-use RedberryProducts\CryptoWallet\Drivers\Bitgo\Wallet;
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\Modules\Wallet;
 
 /**
  * CryptoWalletServiceProvider is the service provider for the Bitgo Wallet package.
@@ -22,17 +19,6 @@ class CryptoWalletServiceProvider extends ServiceProvider
             __DIR__.'/../config/crypto-wallet.php',
             'crypto-wallet'
         );
-
-        $this->registerDriver();
-    }
-
-    /**
-     * Register the Wallet binding.
-     */
-    protected function registerDriver(): void
-    {
-        $this->app->bind(WalletContract::class, Wallet::class);
-        $this->app->bind(ExchangeRateContract::class, ExchangeRate::class);
     }
 
     /**

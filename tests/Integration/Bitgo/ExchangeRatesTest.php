@@ -1,13 +1,13 @@
 <?php
 
-use RedberryProducts\CryptoWallet\Facades\ExchangeRate;
+use RedberryProducts\CryptoWallet\ExchangeRateFactory;
 
 it('can fetch exchange rates', function () {
-    $res = ExchangeRate::all();
+    $res = ExchangeRateFactory::bitgo()->all();
     expect($res)->toBeArray();
 });
 
 it('can get exchange rates on a coin', function () {
-    $res = ExchangeRate::getByCoin('tbtc');
+    $res = ExchangeRateFactory::bitgo()->getByCoin('tbtc');
     expect($res)->toBeArray();
 });

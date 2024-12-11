@@ -3,24 +3,24 @@
 namespace RedberryProducts\CryptoWallet\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
-use RedberryProducts\CryptoWallet\Adapters\BitgoAdapter;
-use RedberryProducts\CryptoWallet\Contracts\BitgoAdapterContract;
-use RedberryProducts\CryptoWallet\Contracts\WalletContract;
 use RedberryProducts\CryptoWallet\CryptoWalletServiceProvider;
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\BitgoClient;
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\Contracts\WalletContract;
+use Spatie\LaravelData\LaravelDataServiceProvider;
 
 class TestCase extends Orchestra
 {
     use BitgoHttpMocks;
 
-    public BitgoAdapterContract $adapter;
+    public BitgoClient $client;
 
     public WalletContract $wallet;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->adapter = new BitgoAdapter;
-        if (config('crypto-wallet.use_mocks')) {
+        $this->client = new BitgoClient;
+        if (config('crypto-wallet.drivers.bitgo.use_mocks')) {
             self::setupMocks();
         }
     }
@@ -29,6 +29,8 @@ class TestCase extends Orchestra
     {
         return [
             CryptoWalletServiceProvider::class,
+            LaravelDataServiceProvider::class,
+
         ];
     }
 

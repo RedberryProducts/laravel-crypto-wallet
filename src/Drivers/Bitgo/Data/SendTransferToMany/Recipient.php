@@ -2,7 +2,7 @@
 
 namespace RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\SendTransferToMany;
 
-use RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\Data;
+use Spatie\LaravelData\Data;
 
 class Recipient extends Data
 {
@@ -11,7 +11,5 @@ class Recipient extends Data
         public string $amount,
         public ?string $tokenName = null,
         public ?TokenData $tokenData = null,
-    ) {
-        parent::__construct();
-    }
+    ) {}
 }

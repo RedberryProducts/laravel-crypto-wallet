@@ -2,6 +2,8 @@
 
 namespace RedberryProducts\CryptoWallet\Drivers\Bitgo\Data;
 
+use Spatie\LaravelData\Data;
+
 class Keychain extends Data
 {
     public string $id;

@@ -2,7 +2,7 @@
 
 namespace RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\SendTransferToMany;
 
-use RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\Data;
+use Spatie\LaravelData\Data;
 
 class SendToManyRequest extends Data
 {
@@ -57,7 +57,5 @@ class SendToManyRequest extends Data
         public readonly ?string $messageKey = null,
         public readonly ?array $reservation = null,
         public readonly ?string $data = null
-    ) {
-        parent::__construct();
-    }
+    ) {}
 }

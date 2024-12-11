@@ -18,11 +18,12 @@
     ],
     "require": {
         "php": ">=8.1",
+        "ext-readline": "*",
         "guzzlehttp/guzzle": ">=7.4",
         "illuminate/contracts": ">=9.0",
         "illuminate/support": ">=9.11",
-        "spatie/laravel-package-tools": ">=1.9.2",
-        "ext-readline": "*"
+        "spatie/laravel-data": "^4.11",
+        "spatie/laravel-package-tools": ">=1.9.2"
     },
     "require-dev": {
         "jetbrains/phpstorm-attributes": ">=1.0",

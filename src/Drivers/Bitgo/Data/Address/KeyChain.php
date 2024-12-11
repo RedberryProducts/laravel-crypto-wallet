@@ -2,7 +2,7 @@
 
 namespace RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\Address;
 
-use RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\Data;
+use Spatie\LaravelData\Data;
 
 class KeyChain extends Data
 {

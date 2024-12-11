@@ -3,9 +3,9 @@
 namespace RedberryProducts\CryptoWallet\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
-use RedberryProducts\CryptoWallet\Contracts\WalletContract;
 use RedberryProducts\CryptoWallet\CryptoWalletServiceProvider;
 use RedberryProducts\CryptoWallet\Drivers\Bitgo\BitgoClient;
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\Contracts\WalletContract;
 
 class TestCase extends Orchestra
 {

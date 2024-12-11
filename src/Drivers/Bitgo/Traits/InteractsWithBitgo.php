@@ -1,6 +1,6 @@
 <?php
 
-namespace RedberryProducts\CryptoWallet\Traits;
+namespace RedberryProducts\CryptoWallet\Drivers\Bitgo\Traits;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;

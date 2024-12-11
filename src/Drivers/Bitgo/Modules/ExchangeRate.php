@@ -1,9 +1,10 @@
 <?php
 
-namespace RedberryProducts\CryptoWallet\Drivers\Bitgo;
+namespace RedberryProducts\CryptoWallet\Drivers\Bitgo\Modules;
 
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\BitgoClient;
 
 class ExchangeRate
 {

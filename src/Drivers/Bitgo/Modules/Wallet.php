@@ -35,7 +35,7 @@ class Wallet extends WalletDto implements WalletContract
 
     public function __construct(
         ?string $coin = null,
-        ?string $id = null
+        ?string $id = null,
 
     ) {
         $this->client = new BitgoClient;
@@ -54,15 +54,15 @@ class Wallet extends WalletDto implements WalletContract
         $wallet = $this->client->generateWallet($this->coin, $options);
         $resultData = WalletData::from($wallet);
 
-        $this->coin = $resultData->wallet->coin;
-        $this->id = $resultData->wallet->id;
-        $this->backupKeychain = $resultData->backupKeychain;
-        $this->userKeychain = $resultData->userKeychain;
-        $this->bitgoKeychain = $resultData->bitgoKeychain;
-        $this->responseType = $resultData->responseType;
-        $this->warning = $resultData->warning;
+        $wallet = self::from($resultData->wallet->toArray());
 
-        return $this;
+        $wallet->backupKeychain = $resultData->backupKeychain;
+        $wallet->userKeychain = $resultData->userKeychain;
+        $wallet->bitgoKeychain = $resultData->bitgoKeychain;
+        $wallet->responseType = $resultData->responseType;
+        $wallet->warning = $resultData->warning;
+
+        return $wallet;
     }
 
     public function get(): self

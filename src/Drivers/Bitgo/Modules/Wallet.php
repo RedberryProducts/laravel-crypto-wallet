@@ -124,7 +124,6 @@ class Wallet extends WalletDto implements WalletContract
         }, $walletTransfers['transfers']);
     }
 
-    //TODO: add DTO
     public function sendTransferToMany(SendToManyRequest $sendToManyRequest): ?array
     {
         $transferData = $sendToManyRequest->toArray();
@@ -136,7 +135,6 @@ class Wallet extends WalletDto implements WalletContract
         );
     }
 
-    //TODO: add DTO
     public function consolidate(?array $params): ?array
     {
         return $this->client->consolidate($this->coin, $this->id, $params);

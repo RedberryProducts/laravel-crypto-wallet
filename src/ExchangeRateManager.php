@@ -4,7 +4,7 @@ namespace RedberryProducts\CryptoWallet;
 
 use RedberryProducts\CryptoWallet\Drivers\Bitgo\Modules\ExchangeRate;
 
-class ExchangeRateFactory
+class ExchangeRateManager
 {
     public static function bitgo(): ExchangeRate
     {

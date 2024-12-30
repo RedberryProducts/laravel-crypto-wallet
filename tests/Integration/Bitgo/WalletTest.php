@@ -1,10 +1,10 @@
 <?php
 
 use RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\Transfer;
-use RedberryProducts\CryptoWallet\WalletFactory;
+use RedberryProducts\CryptoWallet\WalletManager;
 
 it('can generate wallet', function () {
-    $wallet = WalletFactory::bitgo('tbtc')
+    $wallet = WalletManager::bitgo('tbtc')
         ->generate('testing label', 'testing pass', '64065d3743b252a0e029e2faa945e233');
 
     expect($wallet)
@@ -17,7 +17,7 @@ it('can generate wallet', function () {
 
 //it can get wallet by id
 it('can get wallet by id', function () {
-    $wallet = WalletFactory::bitgo('tbtc', 'wallet-id')
+    $wallet = WalletManager::bitgo('tbtc', 'wallet-id')
         ->get();
 
     expect($wallet)
@@ -27,7 +27,7 @@ it('can get wallet by id', function () {
 });
 
 it('can get wallet transfers', function () {
-    $transfers = WalletFactory::bitgo('tbtc', 'wallet-id')
+    $transfers = WalletManager::bitgo('tbtc', 'wallet-id')
         ->getTransfers();
     expect($transfers)->toBeArray()
         ->and($transfers[0])
@@ -37,7 +37,7 @@ it('can get wallet transfers', function () {
 });
 
 it('can generate address on the wallet', function () {
-    $address = WalletFactory::bitgo('tbtc', 'wallet-id')
+    $address = WalletManager::bitgo('tbtc', 'wallet-id')
         ->generateAddress('testing label');
 
     expect($address)
@@ -48,7 +48,7 @@ it('can generate address on the wallet', function () {
 });
 
 it('can get wallet transfer', function () {
-    $transfer = WalletFactory::bitgo('tbtc', 'wallet-id')
+    $transfer = WalletManager::bitgo('tbtc', 'wallet-id')
         ->getTransfer('transfer-id');
 
     expect($transfer)
@@ -58,7 +58,7 @@ it('can get wallet transfer', function () {
 });
 
 it('can generate wallet with webhook', function () {
-    $webhook = WalletFactory::bitgo('tbtc')
+    $webhook = WalletManager::bitgo('tbtc')
         ->generate('wallet with webhook', 'testing pass', '64065d3743b252a0e029e2faa945e233')
         ->addWebhook(6, 'https://www.blockchain.com/');
 
@@ -71,7 +71,7 @@ it('can generate wallet with webhook', function () {
 });
 
 it('inits wallet correctly', function () {
-    $wallet = WalletFactory::bitgo('tbtc', 'wallet-id');
+    $wallet = WalletManager::bitgo('tbtc', 'wallet-id');
     expect($wallet)
         ->toBeObject()
         ->toHaveProperty('coin', 'tbtc')
@@ -79,7 +79,7 @@ it('inits wallet correctly', function () {
 });
 
 it('can list all the available wallets', function () {
-    $wallets = WalletFactory::bitgo()->listAll();
+    $wallets = WalletManager::bitgo()->listAll();
 
     expect($wallets)
         ->toBeArray()
@@ -97,12 +97,12 @@ it('can send transaction', closure: function () {
         ],
         walletPassphrase: 'test',
     );
-    $res = WalletFactory::bitgo('tbtc', 'wallet-id')->sendTransferToMany($sendTransferData);
+    $res = WalletManager::bitgo('tbtc', 'wallet-id')->sendTransferToMany($sendTransferData);
     expect($res)->toBeArray();
 });
 
 it('can get a maximum spendable amount of the wallet', function () {
-    $result = WalletFactory::bitgo('tbtc', 'wallet-id')->getMaximumSpendable([
+    $result = WalletManager::bitgo('tbtc', 'wallet-id')->getMaximumSpendable([
         'feeRate' => 0,
     ]);
 
@@ -112,7 +112,7 @@ it('can get a maximum spendable amount of the wallet', function () {
 });
 
 it('can consolidate wallet balance', function () {
-    $result = WalletFactory::bitgo('tbtc', 'wallet-id')->consolidate([
+    $result = WalletManager::bitgo('tbtc', 'wallet-id')->consolidate([
         'walletPassphrase' => 'test',
         'bulk' => true,
         'minValue' => '0',

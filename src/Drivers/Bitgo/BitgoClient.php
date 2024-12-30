@@ -22,7 +22,7 @@ class BitgoClient
     {
         return Http::withHeaders([
             'Authorization' => 'Bearer '.self::getConfig('api_key'),
-        ])->baseUrl("{$apiUrl}");
+        ])->baseUrl("{$apiUrl}")->throw();
     }
 
     private static function bitgoApi(): PendingRequest

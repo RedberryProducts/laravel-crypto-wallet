@@ -33,7 +33,7 @@ return [
           | This option sets the API key for the Bitgo API.
           |
           */
-            'api_key' => env('BITGO_API_KEY'),
+            'api_key' => env('BITGO_API_KEY', null),
 
             /*
           |--------------------------------------------------------------------------
@@ -64,7 +64,7 @@ return [
           | This option sets the Express API URL for the Bitgo API.
           |
           */
-            'express_api_url' => env('BITGO_EXPRESS_API_URL'),
+            'express_api_url' => env('BITGO_EXPRESS_API_URL', 'http://localhost:3000'),
 
             /*
           |--------------------------------------------------------------------------
@@ -84,7 +84,7 @@ return [
           | This option sets the webhook callback URL for the Bitgo API.
           |
           */
-            'webhook_callback_url' => env('BITGO_WEBHOOK_CALLBACK'),
+            'webhook_callback_url' => env('BITGO_WEBHOOK_CALLBACK', null),
         ],
     ],
 

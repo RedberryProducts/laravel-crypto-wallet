@@ -209,8 +209,8 @@ trait BitgoHttpMocks
         ];
 
         Http::preventStrayRequests();
-        $testingUrl = config('crypto-wallet.drivers.bitgo.testnet_api_url').'/'.config('crypto-wallet.drivers.bitgo.v2_api_prefix');
-        $expressUrl = config('crypto-wallet.drivers.bitgo.express_api_url').'/'.config('crypto-wallet.drivers.bitgo.v2_api_prefix');
+        $testingUrl = 'https://app.bitgo-test.com/api/v2/';
+        $expressUrl = 'http://localhost:3080/api/v2/';
         Http::fake([
             "{$testingUrl}tbtc/wallet/wallet-id/transfer" => Http::response(['transfers' => [$transferObjectMock]]),
             "{$testingUrl}tbtc/wallet/wallet-id/transfer/transfer-id" => Http::response($transferObjectMock),

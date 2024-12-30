@@ -71,7 +71,7 @@ phpreturn [
 BITGO_USE_MOCKS=false
 BITGO_TESTNET=true
 BITGO_API_KEY="YOUR-BITGO-API-KEY"
-BITGO_EXPRESS_API_URL="http://localhost:3080"
+BITGO_EXPRESS_API_URL="http://localhost:3080/api/v2/"
 BITGO_DEFAULT_COIN="tbtc"
 BITGO_WEBHOOK_CALLBACK="https://yourapp.com/webhook/bitgo"
 ```

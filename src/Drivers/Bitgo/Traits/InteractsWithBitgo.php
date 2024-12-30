@@ -24,9 +24,9 @@ trait InteractsWithBitgo
     private static function bitgoApi(): PendingRequest
     {
         if (config('crypto-wallet.drivers.bitgo.testnet')) {
-            $apiUrl = self::getConfig('testnet_api_url');
+            $apiUrl = self::TESTNET_API_URL;
         } else {
-            $apiUrl = self::getConfig('mainnet_api_url');
+            $apiUrl = self::MAINNET_API_URL;
         }
 
         return self::http($apiUrl);

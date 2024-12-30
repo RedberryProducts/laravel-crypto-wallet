@@ -2,42 +2,97 @@
 
 namespace RedberryProducts\CryptoWallet\Drivers\Bitgo;
 
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
-use RedberryProducts\CryptoWallet\Drivers\Bitgo\Traits\InteractsWithBitgo;
+use Illuminate\Support\Facades\Http;
 
 class BitgoClient
 {
-    use InteractsWithBitgo;
+    private const MAINNET_API_URL = 'https://app.bitgo.com/api/v2/';
 
-    public const API_PREFIX = 'api/v2/';
+    private const TESTNET_API_URL = 'https://app.bitgo-test.com/api/v2/';
+
+    private static function getConfig(string $key)
+    {
+        return config("crypto-wallet.drivers.bitgo.{$key}");
+    }
+
+    private static function http($apiUrl): PendingRequest
+    {
+        return Http::withHeaders([
+            'Authorization' => 'Bearer '.self::getConfig('api_key'),
+        ])->baseUrl("{$apiUrl}");
+    }
+
+    private static function bitgoApi(): PendingRequest
+    {
+        if (config('crypto-wallet.drivers.bitgo.testnet')) {
+            $apiUrl = self::TESTNET_API_URL;
+        } else {
+            $apiUrl = self::MAINNET_API_URL;
+        }
+
+        return self::http($apiUrl);
+    }
+
+    private static function bitgoExpressApi(): PendingRequest
+    {
+        $apiUrl = self::getConfig('express_api_url');
+
+        return self::http($apiUrl);
+    }
+
+    protected static function httpGet(string $endpoint, ?array $data = []): Response
+    {
+        return self::bitgoApi()->get($endpoint, $data);
+    }
+
+    /**
+     * @throws ConnectionException
+     */
+    protected static function httPost(string $endpoint, array $data): Response
+    {
+        return self::bitgoApi()->get($endpoint, $data);
+    }
+
+    protected static function httpPostExpress(string $endpoint, array $data): Response
+    {
+        return self::bitgoExpressApi()->post($endpoint, $data);
+    }
+
+    protected static function httpGetExpress(string $endpoint): Response
+    {
+        return self::bitgoExpressApi()->get($endpoint);
+    }
 
     public function me(): ?array
     {
-        return $this->httpGet(self::API_PREFIX.'user/me')->json();
+        return $this->httpGet('user/me')->json();
     }
 
     public function getExchangeRates(?string $coin = null): ?array
     {
         $coinFilter = $coin ? "coin=$coin" : '';
-        $response = $this->httpGet(self::API_PREFIX.'market/latest?'.$coinFilter);
+        $response = $this->httpGet('market/latest?'.$coinFilter);
 
         return $response->json();
     }
 
     public function pingExpress(): Response
     {
-        return $this->httpGetExpress(self::API_PREFIX.'ping');
+        return $this->httpGetExpress('ping');
     }
 
     public function ping(): Response
     {
-        return $this->httpGet(self::API_PREFIX.'ping');
+        return $this->httpGet('ping');
     }
 
     public function generateWallet(string $coin, array $generateWalletData): ?array
     {
         $endpoint = "$coin/wallet/generate";
-        $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, $generateWalletData);
+        $response = $this->httpPostExpress($endpoint, $generateWalletData);
 
         return $response->json();
     }
@@ -45,7 +100,7 @@ class BitgoClient
     public function getWallet(string $coin, ?string $walletId): ?array
     {
         $endpoint = "$coin/wallet/{$walletId}";
-        $response = $this->httpGet(self::API_PREFIX.$endpoint);
+        $response = $this->httpGet($endpoint);
 
         return $response->json();
     }
@@ -53,7 +108,7 @@ class BitgoClient
     public function generateAddressOnWallet(string $coin, string $walletId, ?string $label = null): ?array
     {
         $endpoint = "$coin/wallet/$walletId/address";
-        $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, ['label' => $label]);
+        $response = $this->httpPostExpress($endpoint, ['label' => $label]);
 
         return $response->json();
     }
@@ -62,7 +117,7 @@ class BitgoClient
     {
         $callbackUrl = $callbackUrl ?: config('crypto-wallet.drivers.bitgo.webhook_callback_url');
         $endpoint = "$coin/wallet/$walletId/webhooks";
-        $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, [
+        $response = $this->httpPostExpress($endpoint, [
             'type' => 'transfer', //TODO::should be dynamic
             'url' => $callbackUrl,
             'numConfirmations' => $numConfirmations,
@@ -75,7 +130,7 @@ class BitgoClient
     {
         $query = http_build_query($params);
         $endpoint = "$coin/wallet/$walletId/transfer?$query";
-        $response = $this->httpGet(self::API_PREFIX.$endpoint);
+        $response = $this->httpGet($endpoint);
 
         return $response->json();
     }
@@ -83,7 +138,7 @@ class BitgoClient
     public function getWalletTransfer(string $coin, string $walletId, string $transferId): ?array
     {
         $endpoint = "$coin/wallet/$walletId/transfer/$transferId";
-        $response = $this->httpGet(self::API_PREFIX.$endpoint);
+        $response = $this->httpGet($endpoint);
 
         return $response->json();
     }
@@ -94,7 +149,7 @@ class BitgoClient
         $query = http_build_query($params);
 
         $endpoint = "wallets?$query";
-        $response = $this->httpGet(self::API_PREFIX.$endpoint);
+        $response = $this->httpGet($endpoint);
 
         return $response->json();
     }
@@ -102,7 +157,7 @@ class BitgoClient
     public function sendTransactionToMany(string $coin, string $walletId, array $transferParams): ?array
     {
         $endpoint = "$coin/wallet/$walletId/sendmany";
-        $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, $transferParams);
+        $response = $this->httpPostExpress($endpoint, $transferParams);
 
         return $response->json();
     }
@@ -110,7 +165,7 @@ class BitgoClient
     public function getMaximumSpendable(string $coin, string $walletId, ?array $params = []): ?array
     {
         $endpoint = "$coin/wallet/$walletId/maximumSpendable";
-        $response = $this->httpGet(self::API_PREFIX.$endpoint, $params);
+        $response = $this->httpGet($endpoint, $params);
 
         return $response->json();
     }
@@ -118,7 +173,7 @@ class BitgoClient
     public function listWalletTransfers(string $coin, string $walletId): ?array
     {
         $endpoint = "$coin/wallet/$walletId/transfer";
-        $response = $this->httpGet(self::API_PREFIX.$endpoint);
+        $response = $this->httpGet($endpoint);
 
         return $response->json();
     }
@@ -126,7 +181,7 @@ class BitgoClient
     public function consolidate(string $coin, string $walletId, ?array $params = []): ?array
     {
         $endpoint = "$coin/wallet/$walletId/consolidateunspents";
-        $response = $this->httpPostExpress(self::API_PREFIX.$endpoint, $params);
+        $response = $this->httpPostExpress($endpoint, $params);
 
         return $response->json();
     }

@@ -20,6 +20,8 @@ Currently, we support **Bitgo** for operations such as:
 - Sending transactions
 - Consolidating balances
 - Setting up webhooks for wallet events
+- Getting exchange rates
+- Getting exchange rates for a specific coin
 
 The package uses a clear, fluent API and is fully testable, making it simpler to integrate cryptocurrency-related features into your Laravel application.
 

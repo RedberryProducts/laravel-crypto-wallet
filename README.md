@@ -1,178 +1,243 @@
-# Laravel BitGo Wallet Package
+# Laravel Crypto Wallet
 
-This package is a Laravel wrapper for BitGo's API, allowing developers to interact with cryptocurrency wallets, manage transactions, and handle other wallet-related operations efficiently within Laravel applications.
+## Introduction
 
-## 📋 Overview
+Laravel Crypto Wallet is a flexible Laravel package that provides a **unified factory class** for interacting with various crypto wallet drivers. Currently, it supports **Bitgo**, with plans to add more drivers and introduce a **unified facade** in future releases.
 
-The `RedberryProducts\CryptoWallet` package provides a set of features to:
+> Our Future Plan:
+>
+>
+> Enhance Bitgo support, add more drivers, unify the wallet facade, offer driver selection via configuration—and still let you work directly with each driver.
+>
 
-- Generate, manage, and list wallets
-- Fetch and consolidate wallet balances
-- Create, send, and monitor transfers
-- Add webhooks to track wallet events in real time
+> Note: The unified facade is not yet available, but it will be introduced in a future release
+>
 
+Currently, we support **Bitgo** for operations such as:
 
-### **Core Features**
+- Generating new wallets
+- Generating addresses
+- Sending transactions
+- Consolidating balances
+- Setting up webhooks for wallet events
 
-- **Wallet Management**: Generate and initialize wallets, manage wallet properties, and retrieve wallet information.
-- **Transfers**: Support for sending multi-recipient transactions and fetching wallet transfers.
-- **Webhooks**: Automated notifications for wallet activities.
-- **Balance Management**: Get spendable amounts, consolidate balances, and monitor wallet details.
+The package uses a clear, fluent API and is fully testable, making it simpler to integrate cryptocurrency-related features into your Laravel application.
 
-## Setting Up BitGo Express with Docker
-To use the `RedberryProducts\CryptoWallet` package, BitGo Express needs to be running as a local service. BitGo Express acts as a bridge between your application and the BitGo API, securely managing wallet interactions and signing transactions.
+## Installation
 
-Pulling the BitGo Express Docker Image
-First, pull the latest BitGo Express image from Docker Hub:
+1. **Install via Composer**:
 
-    docker pull bitgosdk/express
-
-## 🛠 Installation
-
-1. Install via Composer:
-    
     ```bash
-    composer require redberry-products/laravel-bitgo-wallet
+    composer require redberryproducts/laravel-crypto-wallet
     ```
-    
-2. Publish the configuration file and set up your BitGo API credentials:
-    
+
+2. **Publish Config (optional, but recommended)**:
+
     ```bash
-    php artisan vendor:publish --provider="RedberryProducts\CryptoWallet\CryptoWalletServiceProvider"
+    php artisan vendor:publish --tag=laravel-crypto-wallet-config
     ```
-    
-3. Update `.env` file with BitGo credentials:
-    
-    ```
-    BITGO_API_KEY=your-bitgo-api-key
-    BITGO_EXPRESS_API_URL=http://bitgo-express:3080/
-    BITGO_DEFAULT_COIN=tbtc  # Example default coin (use mainnet symbols like btc for production
-    ```
-    
 
-## Usage
+   This will publish a `config/cryptowallet.php` file where you can manage driver-specific options.
 
-The following sections provide usage examples for core features of the package.
 
-### 1. **Wallet Initialization & Generation**
+## Configuration
 
-Initialize a wallet instance for a specific coin:
+By default, the configuration for the Bitgo driver is included under the `drivers.bitgo` key. Once published, you’ll find the config at `config/cryptowallet.php`. Below is an example of what the Bitgo config might look like:
 
 ```php
-use RedberryProducts\CryptoWallet\Facades\Wallet;
-
-// Initialize an existing wallet
-$wallet = Wallet::init('tbtc', 'wallet-id');
-```
-
-Generate a new wallet with a label and passphrase:
-
-```php
-$wallet = Wallet::init('tbtc')
-    ->generate('My Test Wallet', 'strongpassphrase', 'enterprise-id');
-```
-
-### 2. **Listing Wallets**
-
-Fetch all available wallets with optional parameters:
-
-```php
-$wallets = Wallet::listAll([
-    'expandBalance' => 'true',
-])
-```
-
-### 3. **Address Management**
-
-Generate a new address within the wallet:
-
-```php
-$address = $wallet->generateAddress('Deposit Address');
-```
-
-### 4. **Transfers**
-
-### **Creating a Transfer**
-
-Create a transfer to multiple recipients:
-
-```php
-$transferData = [
-    'walletPassphrase' => 'strongpassphrase',
-    'recipients' => [
-        ['amount' => 1000, 'address' => 'recipient-address'],
-        ['amount' => 2000, 'address' => 'another-address'],
+phpreturn [
+    'drivers' => [
+        'bitgo' => [
+            'use_mocks' => env('BITGO_USE_MOCKS', false),
+            'testnet' => env('BITGO_TESTNET', true),
+            'api_key' => env('BITGO_API_KEY'),
+            'v2_api_prefix' => 'api/v2/',
+            'testnet_api_url' => 'https://app.bitgo-test.com',
+            'mainnet_api_url' => 'https://app.bitgo.com',
+            'express_api_url' => env('BITGO_EXPRESS_API_URL'),
+            'default_coin' => env('BITGO_DEFAULT_COIN', 'tbtc'),
+            'webhook_callback_url' => env('BITGO_WEBHOOK_CALLBACK'),
+        ],
     ],
 ];
 
-$response = $wallet->sendTransfer($transferData);
 ```
 
-### **Fetching Transfers**
+**.env Example**:
 
-Retrieve all transfers associated with a wallet:
-
-```php
-$transfers = $wallet->getTransfers(['limit' => 500])
+```makefile
+BITGO_USE_MOCKS=false
+BITGO_TESTNET=true
+BITGO_API_KEY="YOUR-BITGO-API-KEY"
+BITGO_EXPRESS_API_URL="http://localhost:3080"
+BITGO_DEFAULT_COIN="tbtc"
+BITGO_WEBHOOK_CALLBACK="https://yourapp.com/webhook/bitgo"
 ```
 
-Get a specific transfer by its ID:
+Adjust these environment variables according to your needs.
+
+## Usage
+
+### Bitgo Driver
+
+All Bitgo functionality is encapsulated within the **Bitgo** driver, which is used by default when calling `WalletManager::bitgo()`.
+
+### Wallet Factory
+
+The core entry point for all wallet-related activities is the `WalletManager` class. You can call static methods (like `bitgo()`) to instantiate a specific driver. For example:
 
 ```php
-$transfer = $wallet->getTransfer('transfer-id')
+use RedberryProducts\CryptoWallet\WalletManager;
+
+$wallet = WalletManager::bitgo();
 ```
 
-### 5. **Webhook Management**
-
-Add a webhook for a wallet with a callback URL to track transaction confirmations:
+Optionally, you can specify a coin and/or wallet ID:
 
 ```php
-$webhook = $wallet->addWebhook(6, 'http://your-app.com/callback')
+$wallet = WalletManager::bitgo('tbtc', 'my-wallet-id');
 ```
 
-### 6. **Balance Management**
-
-### **Get Maximum Spendable Balance**
-
-Calculate the maximum spendable amount:
+### Generating a Wallet
 
 ```php
-$maxSpendable = $wallet->getMaximumSpendable([
-    'feeRate' => 0,
-]);
+$wallet = WalletManager::bitgo('tbtc')
+    ->generate(
+        label: 'Test Wallet',
+        passphrase: 'passphrase123',
+        enterprise: 'enterprise-id',
+    );
 ```
 
-### **Consolidate Wallet Balance**
-
-Consolidate wallet UTXOs to optimize the wallet balance:
+### Getting a Wallet
 
 ```php
-$result = $wallet->consolidate([
-    'walletPassphrase' => 'strongpassphrase',
+$wallet = WalletManager::bitgo('tbtc', 'wallet-id')
+    ->get();
+```
+
+### Listing Wallets
+
+```php
+$wallets = WalletManager::bitgo()->listAll();
+```
+
+### Generating Addresses
+
+```php
+$address = WalletManager::bitgo('tbtc', 'wallet-id')
+    ->generateAddress(label: 'My Address');
+```
+
+### Getting Wallet Transfers
+
+```php
+$transfers = WalletManager::bitgo('tbtc', 'wallet-id')
+    ->getTransfers();
+```
+
+### Sending Transactions
+
+**Send to multiple recipients:**
+
+```php
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\SendTransferToMany\SendToManyRequest;
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\SendTransferToMany\Recipient;
+
+$sendTransferData = new SendToManyRequest(
+    recipients: [
+        new Recipient(address: 'address-1', amount: 333),
+        new Recipient(address: 'address-2', amount: 333),
+    ],
+    walletPassphrase: 'passphrase123',
+);
+
+$response = WalletManager::bitgo('tbtc', 'wallet-id')
+    ->sendTransferToMany($sendTransferData);
+```
+
+### Getting Maximum Spendable
+
+```php
+$maxSpendable = WalletManager::bitgo('tbtc', 'wallet-id')
+    ->getMaximumSpendable([
+        'feeRate' => 0,
+    ]);
+```
+
+### Consolidating Wallet Balances
+
+```php
+$result = WalletManager::bitgo('tbtc', 'wallet-id')->consolidate([
+    'walletPassphrase' => 'passphrase123',
     'bulk' => true,
-    'minValue' => 1000,
+    'minValue' => '0',
+    'minHeight' => 0,
+    'minConfirms' => 0,
 ]);
 ```
 
-## API Reference
+### Adding Webhooks
 
-Each of the package methods is designed to directly map to BitGo’s API. Refer to *[the BitGo API documentation](https://developers.bitgo.com/)*. for more details on the data structure and optional parameters that can be included.
+When you generate a wallet, you can easily attach a webhook:
 
-## Contributing
+```php
+$webhook = WalletManager::bitgo('tbtc')
+    ->generate('wallet with webhook', 'testing pass', '64065d3743b252a0e029e2faa945e233')
+    ->addWebhook(type: 6, url: 'https://www.blockchain.com/');
+```
 
-1. Fork the repository and clone it.
-2. Set up your local development environment with appropriate BitGo credentials.
-3. Make your changes and write tests to verify functionality.
-4. Submit a pull request with a clear description of changes.
+## Exchange Rates
 
-## 🧪 Testing
+You can easily fetch current exchange rates using the `ExchangeRateManager`.
 
-This package includes test cases to verify core functionality. Run the test suite using:
+Currently, we provide a **Bitgo** driver implementation.
+
+### Fetch All Exchange Rates
+
+```php
+use RedberryProducts\CryptoWallet\ExchangeRateManager;
+
+$rates = ExchangeRateManager::bitgo()->all();
+```
+
+### Fetch Exchange Rates for a Specific Coin
+
+```php
+use RedberryProducts\CryptoWallet\ExchangeRateManager;
+
+$tbtcRates = ExchangeRateManager::bitgo()->getByCoin('tbtc');
+```
+
+## Testing
+
+We use [Pest PHP](https://pestphp.com/) (or any other testing framework) to ensure all functionalities work as expected. You can find our test files under `tests/`. To run the tests:
 
 ```bash
 ./vendor/bin/pest
+# or
+php artisan test
 ```
 
-## 📜 License
+Example test coverage includes:
 
-This package is open-sourced software licensed under the [MIT license](https://www.notion.so/redberry/LICENSE.md).
+- Generating and fetching wallets
+- Generating addresses
+- Listing wallets
+- Sending transactions
+- Consolidating balances
+- Attaching webhooks
+
+These tests primarily cover “happy path” scenarios. For a production environment, you may also want to extend test coverage to handle error cases (e.g., invalid passphrase, invalid address, etc.).
+
+## Contributing
+
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/someFeature`)
+3. Make your changes
+4. Write or update tests
+5. Commit your changes (`git commit -m 'Add some feature'`)
+6. Push to the branch (`git push origin feature/someFeature`)
+7. Create a Pull Request
+
+We welcome all contributions that help improve this package!

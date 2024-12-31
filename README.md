@@ -47,7 +47,7 @@ The package uses a clear, fluent API and is fully testable, making it simpler to
 By default, the configuration for the Bitgo driver is included under the `drivers.bitgo` key. Once published, you’ll find the config at `config/cryptowallet.php`. Below is an example of what the Bitgo config might look like:
 
 ```php
-phpreturn [
+return [
     'drivers' => [
         'bitgo' => [
             'use_mocks' => env('BITGO_USE_MOCKS', false),

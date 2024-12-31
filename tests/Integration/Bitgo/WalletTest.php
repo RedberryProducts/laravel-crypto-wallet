@@ -1,9 +1,12 @@
 <?php
 
 use RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\Transfer;
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\Exceptions\BitgoGatewayException;
 use RedberryProducts\CryptoWallet\WalletManager;
 
-it('can generate wallet', function () {
+it(/**
+ * @throws BitgoGatewayException
+ */ 'can generate wallet', function () {
     $wallet = WalletManager::bitgo('tbtc')
         ->generate('testing label', 'testing pass', '64065d3743b252a0e029e2faa945e233');
 

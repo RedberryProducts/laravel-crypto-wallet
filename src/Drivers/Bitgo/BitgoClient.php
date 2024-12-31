@@ -4,8 +4,10 @@ namespace RedberryProducts\CryptoWallet\Drivers\Bitgo;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\Exceptions\BitgoGatewayException;
 
 class BitgoClient
 {
@@ -22,7 +24,9 @@ class BitgoClient
     {
         return Http::withHeaders([
             'Authorization' => 'Bearer '.self::getConfig('api_key'),
-        ])->baseUrl("{$apiUrl}");
+        ])->baseUrl("{$apiUrl}")->throw(function (Response $response, RequestException $exception) {
+            throw new BitgoGatewayException($exception->getMessage(), $response->status(), $exception);
+        });
     }
 
     private static function bitgoApi(): PendingRequest
@@ -53,7 +57,7 @@ class BitgoClient
      */
     protected static function httPost(string $endpoint, array $data): Response
     {
-        return self::bitgoApi()->get($endpoint, $data);
+        return self::bitgoApi()->post($endpoint, $data);
     }
 
     protected static function httpPostExpress(string $endpoint, array $data): Response

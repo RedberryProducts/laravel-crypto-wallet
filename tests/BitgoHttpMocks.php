@@ -148,8 +148,11 @@ trait BitgoHttpMocks
                         'EUR' => [
                             '24h_avg' => 60.8404113,
                         ],
+                        'USD' => [
+                            '24h_avg' => 70.0,
+                        ],
                     ],
-                    'coin' => 'tltc',
+                    'coin' => 'tbtc',
                 ],
             ],
         ];

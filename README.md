@@ -25,8 +25,13 @@ Currently, we support **Bitgo** for operations such as:
 
 The package uses a clear, fluent API and is fully testable, making it simpler to integrate cryptocurrency-related features into your Laravel application.
 
+## Installation
 
+1. **Install via Composer**:
 
+    ```bash
+    composer require redberryproducts/laravel-crypto-wallet
+    ```
 
 ## Configuration
 

@@ -15,7 +15,6 @@ it('can get exchange rates on a coin', function () {
         ->toHaveKey('currencies');
 });
 
-//it can not get exchange rates on an invalid coin
 it('can not get exchange rates on an invalid coin', function () {
     $res = ExchangeRateManager::bitgo()->getByCoin('invalid-coin');
     expect($res)->toBeNull();

@@ -29,9 +29,9 @@ The package uses a clear, fluent API and is fully testable, making it simpler to
 
 1. **Install via Composer**:
 
-    ```bash
-    composer require redberryproducts/laravel-crypto-wallet
-    ```
+```bash
+composer require redberryproducts/laravel-crypto-wallet
+```
 
 ## Configuration
 

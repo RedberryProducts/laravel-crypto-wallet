@@ -13,7 +13,7 @@ trait BitgoHttpMocks
             'id' => 'wallet-id',
             'users' => [
                 [
-                    'user' => '62ab90e06dfda30007974f0a52a12995',
+                    'user' => '62ab90e06df',
                     'permissions' => [
                         'admin',
                         'view',
@@ -26,13 +26,13 @@ trait BitgoHttpMocks
             'm' => 2,
             'n' => 3,
             'keys' => [
-                '62f002e79b12b800077bea85071f633f',
-                '62f002e759cafb0007f3002f885697e9',
-                '62f002e77bd7400007ee7f10ed8c5af3',
+                '62f002e79b1',
+                '62f002e759c',
+                '62f002e77bd',
             ],
             'keySignatures' => [
-                'backupPub' => '20f0854d0af1b22fad685a7580a4b8b45fc22a8a35a426f6c86c450faca5bdc9666bc2a88d7961ecdf9724a4247abcdc05bebef679d013ab309c15be9097c64cee',
-                'bitgoPub' => '1ffdb32d0618b3ef93e0b85f9499d6d4a7a96fb47b2e9851d31e57ff790bb7c49f2c0456ccb666fedfd5f51c2b477456c48fe69c4b171ae7bfbaf8851432b8be45',
+                'backupPub' => '20f0854d0af1b22fad685a7580a4b8b4',
+                'bitgoPub' => '1ffdb32d0618b3ef93e0b85f9499d6d4a',
             ],
             'enterprise' => '62c5ae8174ac860007aff138a2d74df7',
             'tags' => [
@@ -69,15 +69,15 @@ trait BitgoHttpMocks
             'confirmedBalanceString' => '0',
             'spendableBalanceString' => '0',
             'receiveAddress' => [
-                'id' => '62f002e7b1440900072b848123196453',
-                'address' => '2MwMtk2qWsP54LHqBqEk8cbgqtmG2qV5XSi',
+                'id' => '62f002e7b1',
+                'address' => '2MwMtk2qWsP54',
                 'chain' => 10,
                 'index' => 1,
                 'coin' => 'tbtc',
-                'wallet' => '62f002e7b1440900072b8472fc8a9de8',
+                'wallet' => '62f002e7b144090',
                 'coinSpecific' => [
-                    'redeemScript' => '00206ad786997ee4798fcaa70651b041e26b798127aaea3898a6dce306b6de2ce0e4',
-                    'witnessScript' => '522103c6b657f7a39b7a7f956f3b46ab9cc62f9ed0a184549d5ae0b6b54de0052ac7f721034116165f883397724e86f14918031d70231c64187cfacded4aa51a6c658b9bc2210285d4c028327832c85ce57e921500a758038aefb841a542c3775793137295c52e53ae',
+                    'redeemScript' => '00206ad786997ee4798fcaa70651b041',
+                    'witnessScript' => '522103c6b657f7a39b7a7f956f3b46',
                 ],
             ],
             'pendingApprovals' => [],
@@ -94,26 +94,26 @@ trait BitgoHttpMocks
         $generateWalletRequestMock = [
             'wallet' => $walletMock,
             'userKeychain' => [
-                'id' => '62f002e79b12b800077bea85071f633f',
-                'pub' => 'xpub661MyMwAqRbcGqD3oX9sGtEjJZVQrtMYHqWPkDaeVpj8SugdVJwnF5zkiSTZoMo181UNkGDx5HKDtWSxNMZvdxnkrw2aXr19UQKxGiPxmhX',
-                'ethAddress' => '0x500e9d8a71d51dc0d9e0f0e98d12276dbe177ee4',
+                'id' => '62f002e79b12ea85071f633f',
+                'pub' => 'xpub661MyMwAqRbcGqD3oX9sGtEGiPxmhX',
+                'ethAddress' => '0x500e9d8a71d98d12276dbe177ee4',
                 'source' => 'user',
                 'type' => 'independent',
-                'encryptedPrv' => '{"iv":"GD26lmXg0os1DLrXYXMMPA==","v":1,"iter":10000,"ks":256,"ts":64,"mode":"ccm","adata":"","cipher":"aes","salt":"KsRm/x1BTRw=","ct":"rqRbdviwV2B6rrqNYEUvUhSdN0acfM+D4fBSVn0BK/LePdCePW1K73QbIWOeYH0KujjGCjJ7eyRLNPokY7jx43a6n6vJlyvKaXZnVyMhVnlI8WipdPiE/jwcXAESqKaTNV2TsZF5X8jGb4jHmE3rdoAvbcDShvo="}',
-                'prv' => 'xprv9s21ZrQH143K4M8ahVcrukHzkXevTRdgvcanwqB2wVC9a7MUwmdXhHgGs8SGmt3kZLh7BMKmb8H6ZWEcjUWCyhVk8Vcrs5jPRbJwJBHUAi9',
+                'encryptedPrv' => '{"iv":"GD26lmrXYXMMPA==","v":1,"iter":10000,"ks":256,"ts":64,"mode":"ccm","adata":"","cipher":"aes","salt":"KsRm/x1BTRw=","ct":"rq-ujjDShvo="}',
+                'prv' => 'xprv9s21ZrQH143K4M8ahVcrukHzkXevTRdgvcaH6ZWEcjUWCyhVk8Vcrs5jPRbJwJBHUAi9',
             ],
             'backupKeychain' => [
-                'id' => '62f002e759cafb0007f3002f885697e9',
-                'pub' => 'xpub661MyMwAqRbcGYpcqRc8eafSixRBaEdtpXF1nxEaHuUQoHHs8rJLSSp1bpE3dS4rVC943wBzZqGkzeed91GoaMRXuiJo3evDydLVRsgnQNi',
-                'ethAddress' => '0xbd0a837c9d01b7d33915059f39793aa4b1391847',
+                'id' => '62f002e7593002f885697e9',
+                'pub' => 'xpub661MyMwfSixRBaEdtpC943wRsgnQNi',
+                'ethAddress' => '0xba4b1391847',
                 'source' => 'backup',
                 'type' => 'independent',
-                'prv' => 'xprv9s21ZrQH143K44k9jQ58HSiiAvahAmv3TJKQzZpxjZwRvUxibJz5teVXkZGaqV4a4HPeJon6QutcFe1pGZ89MDa1HssyGYhEQjag8S8pYPe',
+                'prv' => 'xprv9s21ZrQH143KssyGYhEQjag8S8pYPe',
             ],
             'bitgoKeychain' => [
-                'id' => '62f002e77bd7400007ee7f10ed8c5af3',
-                'pub' => 'xpub661MyMwAqRbcFZC9odQHUoA8C6AAj8pyHicqCHBjPFuTSygwb4UEeNXugroXVt1ChWKa3XXAo7onCjDWTYoVriVvExQkjiSoET5Fjq6ub32',
-                'ethAddress' => '0x33b45cabc7251825675880385e862f5b109be96f',
+                'id' => '62f002e77bd75af3',
+                'pub' => 'xpub661MyMwAqRbcFZjq6ub32',
+                'ethAddress' => '0x3e96f',
                 'source' => 'bitgo',
                 'type' => 'independent',
                 'isBitGo' => true,
@@ -123,9 +123,9 @@ trait BitgoHttpMocks
         ];
 
         $webhookMock = [
-            'id' => '631272d4358f790007d72487601864cf',
+            'id' => '631272d4357601864cf',
             'created' => '2022-09-02T21:17:08.805Z',
-            'walletId' => '631272d36334c60007a2a61645fb770f',
+            'walletId' => '631272d36a61645fb770f',
             'coin' => 'tbtc',
             'type' => 'transfer',
             'url' => 'https://www.blockchain.com/',
@@ -140,7 +140,7 @@ trait BitgoHttpMocks
             'marketData' => [
                 [
                     'blockchain' => [
-                        'cacheTime' => 1662827616853,
+                        'cacheTime' => 166216853,
                         'totalbc' => 19146787.5,
                         'transactions' => 258193,
                     ],
@@ -165,7 +165,7 @@ trait BitgoHttpMocks
         ];
 
         $transferObjectMock = [
-            'id' => '62b1c6168e0b9e0007b421314aba0654',
+            'id' => '62b1c616b9e0654',
             'coin' => 'tbtc',
             'wallet' => 'wallet-id',
             'value' => '100000000',
@@ -173,37 +173,37 @@ trait BitgoHttpMocks
         ];
 
         $addressObjectMock = [
-            'id' => '631283e10e052800066295e210da142a',
-            'address' => '2N9wCEV3KGEFsyo9xoUGjVYaSVwjSueutjz',
+            'id' => '631283e10ee142a',
+            'address' => '2N9wCj210Sueutjz',
             'chain' => 10,
             'index' => 2,
             'coin' => 'tbtc',
-            'wallet' => '6312824bf3281c0006fedaad1d667e67',
+            'wallet' => '6312824bad1d667e67',
             'coinSpecific' => [
-                'redeemScript' => '00200fdaf19ad268ab964d2e3fd352b69365d29d7a61cca4224eb5ef2b05fdcab106',
-                'witnessScript' => '522103938ad2f9cb72f6d2001927afaa1f0fc66ed377ac0d19712565447d4c6b17c1db2102ccbaceae6b7bc2d34eec97787f8159dd2152a62103470f87c6736b0650b60aff2102c5b2bc81c2678d225f1defbe0e7acb48aca06fe15ea8beb107e4b729d788cf3e53ae',
+                'redeemScript' => '00200fdb106',
+                'witnessScript' => '522103938ad2788cf3e53ae',
             ],
             'addressType' => 'p2shP2wsh',
             'keychains' => [
                 [
-                    'id' => '6312824b86f4aa0007dd283d1253ac33',
-                    'pub' => 'xpub661MyMwAqRbcEeuE59B7icbdeDQYFbCTxLRCjSkVYZmgKUZzwjwdXW1V8X33gRmR3LjQsFK9EbzgZ9NezZW2Wj55mScfPHwPitaGdiKJAe8',
-                    'ethAddress' => '0x94bbb7c3582ae9fbb829daa9fd81e112184df260',
+                    'id' => '6312824b86f3d1253ac33',
+                    'pub' => 'xpub661MyMJAe8',
+                    'ethAddress' => '0x944df260',
                     'source' => 'user',
                     'type' => 'independent',
-                    'encryptedPrv' => '{"iv":"T+GU0GhX4XHRRg2ohnzp1w==","v":1,"iter":10000,"ks":256,"ts":64,"mode":"ccm","adata":"","cipher":"aes","salt":"Yn45uWDyOuM=","ct":"dbc8wRJU0art3tW6R/wCs2X3F8Fx4cS+sYw1/rPewTqgwuBoUUn+TO2otaxiWaw1lRKjF3mP+2IHTUif6W2n9ByCiva+xWO8l45nxWMG8RHABA5h0mmNZCZzNAD+0Eyd7MuU/9u0tqI81HBJcppgGu0FegdXbKc="}',
+                    'encryptedPrv' => '{"iv":"T+GU0GHRRg2ohnzp1w==","v":1,"iter":10000,"ks":256,"ts":64,"mode":"ccm","adata":"","cipher":"aes","salt":"Yn45uWDyOuM=","ct":"dbc8Yw1/rPewTqgwuBoUUn+TO2otaxiWaw1/9u0tqI81HBJcppgGu0FegdXbKc="}',
                 ],
                 [
-                    'id' => '6312824bb6b93a00078c5624bc86a9b6',
-                    'pub' => 'xpub661MyMwAqRbcFbRoBvNZ7hmNLD1E67drVGYjVQGBPBeZFRowbPnDNPdKK9c7oq19ekqrAQrJJjPVzepH1dDCJWdLu6Vjgt6BWuToUnkfxDw',
-                    'ethAddress' => '0xbecce05e0b880092bd0d2c85b368ec563751b266',
+                    'id' => '6312824bb686a9b6',
+                    'pub' => 'xpub661MyMwAqRbcoqoUnkfxDw',
+                    'ethAddress' => '0xbecc1b266',
                     'source' => 'backup',
                     'type' => 'independent',
                 ],
                 [
-                    'id' => '6312824b86f4aa0007dd284157374ba2',
-                    'pub' => 'xpub661MyMwAqRbcGcpsPgX4ZuS4PP7FHW7JzuDLeydN3iF66vka87L6SNaLMc3k4EUUnbFHswyEBX6SXsoQVH6MUvNjFAGGKB5xekSAe2yP5ne',
-                    'ethAddress' => '0xc3a3c72b10d5b448533ff18b3254ca6bbf0d1ba3',
+                    'id' => '6317374ba2',
+                    'pub' => 'xpub661MyMP5ne',
+                    'ethAddress' => '0xc3a3c70d1ba3',
                     'source' => 'bitgo',
                     'type' => 'independent',
                     'isBitGo' => true,

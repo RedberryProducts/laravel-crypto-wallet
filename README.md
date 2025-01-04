@@ -173,9 +173,9 @@ $result = WalletManager::bitgo('tbtc', 'wallet-id')->consolidate([
 When you generate a wallet, you can easily attach a webhook:
 
 ```php
-$webhook = WalletManager::bitgo('tbtc')
-    ->generate('wallet with webhook', 'test-passphrase', 'enterprise-id')
-    ->addWebhook(type: 6, url: 'https://yourapp.com/webhook/bitgo');
+    $webhook = WalletManager::bitgo('tbtc')
+        ->generate('wallet with webhook', 'test-passphrase', 'enterprise-id')
+        ->addWebhook(numConfirmations: 6, callbackUrl: 'https://yourapp.com/webhook/bitgo');
 ```
 
 ## Exchange Rates

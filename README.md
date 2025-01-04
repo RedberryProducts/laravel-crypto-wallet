@@ -94,7 +94,7 @@ $wallet = WalletManager::bitgo('tbtc', 'my-wallet-id');
 $wallet = WalletManager::bitgo('tbtc')
     ->generate(
         label: 'Test Wallet',
-        passphrase: 'passphrase123',
+        passphrase: 'test-passphrase',
         enterpriseId: 'enterprise-id',
     );
 ```
@@ -160,7 +160,7 @@ $maxSpendable = WalletManager::bitgo('tbtc', 'wallet-id')
 
 ```php
 $result = WalletManager::bitgo('tbtc', 'wallet-id')->consolidate([
-    'walletPassphrase' => 'passphrase123',
+    'walletPassphrase' => 'testing-pass',
     'bulk' => true,
     'minValue' => '0',
     'minHeight' => 0,
@@ -174,8 +174,8 @@ When you generate a wallet, you can easily attach a webhook:
 
 ```php
 $webhook = WalletManager::bitgo('tbtc')
-    ->generate('wallet with webhook', 'testing pass', '64065d3743b252a0e029e2faa945e233')
-    ->addWebhook(type: 6, url: 'https://www.blockchain.com/');
+    ->generate('wallet with webhook', 'test-passphrase', 'enterprise-id')
+    ->addWebhook(type: 6, url: 'https://yourapp.com/webhook/bitgo');
 ```
 
 ## Exchange Rates

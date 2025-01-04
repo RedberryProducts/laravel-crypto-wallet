@@ -5,18 +5,6 @@
 2. [Installation](#installation)
 3. [Configuration](#configuration)
 4. [Usage](#usage)
-   - [Bitgo Driver](#bitgo-driver)
-   - [Wallet Factory](#wallet-factory)
-   - [Generating a Wallet](#generating-a-wallet)
-   - [Getting a Wallet](#getting-a-wallet)
-   - [Listing Wallets](#listing-wallets)
-   - [Generating Addresses](#generating-addresses)
-   - [Getting Wallet Transfers](#getting-wallet-transfers)
-   - [Sending Transactions](#sending-transactions)
-   - [Getting Maximum Spendable](#getting-maximum-spendable)
-   - [Consolidating Wallet Balances](#consolidating-wallet-balances)
-   - [Adding Webhooks](#adding-webhooks)
-   - [Exchange Rates](#exchange-rates)
 5. [Testing](#testing)
 6. [Contributing](#contributing)
 
@@ -35,13 +23,16 @@ Laravel Crypto Wallet is a flexible Laravel package that provides a **unified fa
 
 Currently, we support **Bitgo** for operations such as:
 
-- Generating new wallets
-- Generating addresses
-- Sending transactions
-- Consolidating balances
-- Setting up webhooks for wallet events
-- Getting exchange rates
-- Getting exchange rates for a specific coin
+- [Generating a Wallet](#generating-a-wallet)
+- [Getting a Wallet](#getting-a-wallet)
+- [Listing Wallets](#listing-wallets)
+- [Generating Addresses](#generating-addresses)
+- [Getting Wallet Transfers](#getting-wallet-transfers)
+- [Sending Transactions](#sending-transactions)
+- [Getting Maximum Spendable](#getting-maximum-spendable)
+- [Consolidating Wallet Balances](#consolidating-wallet-balances)
+- [Adding Webhooks](#adding-webhooks)
+- [Exchange Rates](#exchange-rates)
 
 The package uses a clear, fluent API and is fully testable, making it simpler to integrate cryptocurrency-related features into your Laravel application.
 

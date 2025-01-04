@@ -85,7 +85,7 @@ $wallet = WalletManager::bitgo();
 Optionally, you can specify a coin and/or wallet ID:
 
 ```php
-$wallet = WalletManager::bitgo('tbtc', 'my-wallet-id');
+$wallet = WalletManager::bitgo(coin: 'tbtc', walletId: 'my-wallet-id');
 ```
 
 ### Generating a Wallet
@@ -102,8 +102,8 @@ $wallet = WalletManager::bitgo('tbtc')
 ### Getting a Wallet
 
 ```php
-$wallet = WalletManager::bitgo('tbtc', 'wallet-id')
-    ->get();
+$wallet = WalletManager::bitgo(coin: 'tbtc', walletId: 'wallet-id')
+        ->get();
 ```
 
 ### Listing Wallets
@@ -115,14 +115,14 @@ $wallets = WalletManager::bitgo()->listAll();
 ### Generating Addresses
 
 ```php
-$address = WalletManager::bitgo('tbtc', 'wallet-id')
+$address = WalletManager::bitgo(coin: 'tbtc', walletId: 'wallet-id')
     ->generateAddress(label: 'My Address');
 ```
 
 ### Getting Wallet Transfers
 
 ```php
-$transfers = WalletManager::bitgo('tbtc', 'wallet-id')
+$transfers = WalletManager::bitgo(coin: 'tbtc', walletId: 'wallet-id')
     ->getTransfers();
 ```
 
@@ -143,14 +143,14 @@ $sendTransferData = new SendToManyRequest(
     feeRate: 250,
 );
 
-$response = WalletManager::bitgo('tbtc', 'wallet-id')
+$response = WalletManager::bitgo(coin: 'tbtc', walletId: 'wallet-id')
     ->sendTransferToMany($sendTransferData);
 ```
 
 ### Getting Maximum Spendable
 
 ```php
-$maxSpendable = WalletManager::bitgo('tbtc', 'wallet-id')
+$maxSpendable = WalletManager::bitgo(coin: 'tbtc', walletId: 'wallet-id')
     ->getMaximumSpendable([
         'feeRate' => 0,
     ]);
@@ -159,7 +159,7 @@ $maxSpendable = WalletManager::bitgo('tbtc', 'wallet-id')
 ### Consolidating Wallet Balances
 
 ```php
-$result = WalletManager::bitgo('tbtc', 'wallet-id')->consolidate([
+$result = WalletManager::bitgo(coin: 'tbtc', walletId: 'wallet-id')->consolidate([
     'walletPassphrase' => 'testing-pass',
     'bulk' => true,
     'minValue' => '0',
@@ -173,7 +173,7 @@ $result = WalletManager::bitgo('tbtc', 'wallet-id')->consolidate([
 When you generate a wallet, you can easily attach a webhook:
 
 ```php
-    $webhook = WalletManager::bitgo('tbtc')
+    $webhook = WalletManager::bitgo(coin: 'tbtc')
         ->generate('wallet with webhook', 'test-passphrase', 'enterprise-id')
         ->addWebhook(numConfirmations: 6, callbackUrl: 'https://yourapp.com/webhook/bitgo');
 ```

@@ -136,10 +136,11 @@ use RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\SendTransferToMany\Recipien
 
 $sendTransferData = new SendToManyRequest(
     recipients: [
-        new Recipient(address: 'address-1', amount: 333),
-        new Recipient(address: 'address-2', amount: 333),
+        new Recipient(address: 'tb1psv9q9zlp94s9jncnlye4kj0acyp56suxf28hn4k34vyrmsrp4qtsc9eqlq', amount: 4368),
     ],
-    walletPassphrase: 'passphrase123',
+
+    walletPassphrase: 'test',
+    feeRate: 250,
 );
 
 $response = WalletManager::bitgo('tbtc', 'wallet-id')

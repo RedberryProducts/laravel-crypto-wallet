@@ -238,17 +238,6 @@ We use [Pest PHP](https://pestphp.com/) to ensure all functionalities work as ex
 php artisan test
 ```
 
-Example test coverage includes:
-
-- Generating and fetching wallets
-- Generating addresses
-- Listing wallets
-- Sending transactions
-- Consolidating balances
-- Attaching webhooks
-
-These tests primarily cover “happy path” scenarios. For a production environment, you may also want to extend test coverage to handle error cases (e.g., invalid passphrase, invalid address, etc.).
-
 ## Contributing
 
 1. Fork the repository

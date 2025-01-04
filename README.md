@@ -53,6 +53,15 @@ The package uses a clear, fluent API and is fully testable, making it simpler to
 composer require redberryproducts/laravel-crypto-wallet
 ```
 
+## Bitgo Express Docker
+
+To run Bitgo Express locally using Docker, you can use the following commands:
+```bash
+docker pull bitgo/express:latest
+docker run -it -p 3080:3080 bitgo/express:latest
+```
+For more information on Bitgo Express Docker, refer to the official [Bitgo Express Docker documentation](https://developers.bitgo.com/guides/get-started/express/install).
+
 ## Configuration
 
 By default, the configuration for the Bitgo driver is included under the `drivers.bitgo` key. Once published, you’ll find the config at `config/cryptowallet.php`. Below is an example of what the Bitgo config might look like:

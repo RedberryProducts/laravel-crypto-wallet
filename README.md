@@ -201,7 +201,7 @@ $tbtcRates = ExchangeRateManager::bitgo()->getByCoin('tbtc');
 
 ## Testing
 
-We use [Pest PHP](https://pestphp.com/) (or any other testing framework) to ensure all functionalities work as expected. You can find our test files under `tests/`. To run the tests:
+We use [Pest PHP](https://pestphp.com/) to ensure all functionalities work as expected. You can find our test files under `tests/`. To run the tests:
 
 ```bash
 ./vendor/bin/pest

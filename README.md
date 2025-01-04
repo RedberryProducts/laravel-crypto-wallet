@@ -95,7 +95,7 @@ $wallet = WalletManager::bitgo('tbtc')
     ->generate(
         label: 'Test Wallet',
         passphrase: 'passphrase123',
-        enterprise: 'enterprise-id',
+        enterpriseId: 'enterprise-id',
     );
 ```
 

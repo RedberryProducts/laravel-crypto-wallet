@@ -1,5 +1,25 @@
 # Laravel Crypto Wallet
 
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Installation](#installation)
+3. [Configuration](#configuration)
+4. [Usage](#usage)
+   - [Bitgo Driver](#bitgo-driver)
+   - [Wallet Factory](#wallet-factory)
+   - [Generating a Wallet](#generating-a-wallet)
+   - [Getting a Wallet](#getting-a-wallet)
+   - [Listing Wallets](#listing-wallets)
+   - [Generating Addresses](#generating-addresses)
+   - [Getting Wallet Transfers](#getting-wallet-transfers)
+   - [Sending Transactions](#sending-transactions)
+   - [Getting Maximum Spendable](#getting-maximum-spendable)
+   - [Consolidating Wallet Balances](#consolidating-wallet-balances)
+   - [Adding Webhooks](#adding-webhooks)
+   - [Exchange Rates](#exchange-rates)
+5. [Testing](#testing)
+6. [Contributing](#contributing)
+
 ## Introduction
 
 Laravel Crypto Wallet is a flexible Laravel package that provides a **unified factory class** for interacting with various crypto wallet drivers. Currently, it supports **Bitgo**, with plans to add more drivers and introduce a **unified facade** in future releases.
@@ -7,7 +27,7 @@ Laravel Crypto Wallet is a flexible Laravel package that provides a **unified fa
 > Our Future Plan:
 >
 >
-> Enhance Bitgo support, add more drivers, unify the wallet facade, offer driver selection via configuration—and still let you work directly with each driver.
+> Enhance Bitgo support, add more drivers, unify the Wallet facade, offer driver selection via configuration—and still let you work directly with each driver.
 >
 
 > Note: The unified facade is not yet available, but it will be introduced in a future release
@@ -55,13 +75,13 @@ return [
 
 **.env Example**:
 
-```makefile
-BITGO_USE_MOCKS=false
-BITGO_TESTNET=true
-BITGO_API_KEY="YOUR-BITGO-API-KEY"
-BITGO_EXPRESS_API_URL="http://localhost:3080/api/v2/"
-BITGO_DEFAULT_COIN="tbtc"
-BITGO_WEBHOOK_CALLBACK="https://yourapp.com/webhook/bitgo"
+```dotenv
+BITGO_USE_MOCKS = false
+BITGO_TESTNET = true
+BITGO_API_KEY = YOUR-BITGO-API-KEY
+BITGO_EXPRESS_API_URL = http://localhost:3080/api/v2/
+BITGO_DEFAULT_COIN = tbtc
+BITGO_WEBHOOK_CALLBACK = https://yourapp.com/webhook/bitgo
 ```
 
 Adjust these environment variables according to your needs.
@@ -235,7 +255,7 @@ These tests primarily cover “happy path” scenarios. For a production environ
 2. Create a new branch (`git checkout -b feature/someFeature`)
 3. Make your changes
 4. Write or update tests
-5. Commit your changes (`git commit -m 'Add some feature'`)
+5. Commit your changes (`git commit -m 'feat: Add some feature'`)
 6. Push to the branch (`git push origin feature/someFeature`)
 7. Create a Pull Request
 

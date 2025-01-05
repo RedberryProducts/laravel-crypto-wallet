@@ -4,6 +4,7 @@ namespace RedberryProducts\CryptoWallet\Drivers\Bitgo\Modules;
 
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Arr;
 use RedberryProducts\CryptoWallet\Drivers\Bitgo\BitgoClient;
 use RedberryProducts\CryptoWallet\Drivers\Bitgo\Exceptions\BitgoGatewayException;
@@ -25,6 +26,7 @@ class ExchangeRate
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function all(): ?array
     {
@@ -33,6 +35,7 @@ class ExchangeRate
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function getByCoin(?string $coin = null): ?array
     {

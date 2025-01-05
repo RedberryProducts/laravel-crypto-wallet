@@ -53,7 +53,7 @@ return [
             | This option sets the default coin for Bitgo API calls.
             |
             */
-            'default_coin' => env('BITGO_DEFAULT_COIN', 'tbtc'),
+            'default_coin' => env('BITGO_DEFAULT_COIN', 'tbtc4'),
 
             /*
             |--------------------------------------------------------------------------

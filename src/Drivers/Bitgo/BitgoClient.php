@@ -4,7 +4,6 @@ namespace RedberryProducts\CryptoWallet\Drivers\Bitgo;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use RedberryProducts\CryptoWallet\Drivers\Bitgo\Exceptions\BitgoGatewayException;
@@ -24,9 +23,7 @@ class BitgoClient
     {
         return Http::withHeaders([
             'Authorization' => 'Bearer '.self::getConfig('api_key'),
-        ])->baseUrl("{$apiUrl}")->throw(function (Response $response, RequestException $exception) {
-            throw new BitgoGatewayException($exception->getMessage(), $response->status(), $exception);
-        });
+        ])->baseUrl("{$apiUrl}");
     }
 
     private static function bitgoApi(): PendingRequest
@@ -49,42 +46,50 @@ class BitgoClient
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     protected static function httpGet(string $endpoint, ?array $data = []): Response
     {
-        try {
-            return self::bitgoApi()->get($endpoint, $data);
-        } catch (ConnectionException $e) {
-            throw new BitgoGatewayException($e->getMessage(), 500, $e);
+        $response = self::bitgoApi()->get($endpoint, $data);
+        if ($response->status() >= 400) {
+            throw new BitgoGatewayException($response->json()['error'], $response->status(), $response->json());
         }
+
+        return $response;
     }
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     protected static function httpPostExpress(string $endpoint, array $data): Response
     {
-        try {
-            return self::bitgoExpressApi()->post($endpoint, $data);
-        } catch (ConnectionException $e) {
-            throw new BitgoGatewayException($e->getMessage(), 500, $e);
+
+        $response = self::bitgoExpressApi()->post($endpoint, $data);
+        if ($response->status() >= 400) {
+            throw new BitgoGatewayException($response->json()['error'], $response->status(), $response->json());
         }
+
+        return $response;
     }
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     protected static function httpGetExpress(string $endpoint): Response
     {
-        try {
-            return self::bitgoExpressApi()->get($endpoint);
-        } catch (ConnectionException $e) {
-            throw new BitgoGatewayException($e->getMessage(), 500, $e);
+        $response = self::bitgoExpressApi()->get($endpoint);
+        if ($response->status() >= 400) {
+            throw new BitgoGatewayException($response->json()['error'], $response->status(), $response->json());
         }
+
+        return $response;
     }
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function me(): ?array
     {
@@ -93,6 +98,7 @@ class BitgoClient
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function getExchangeRates(?string $coin = null): ?array
     {
@@ -104,14 +110,21 @@ class BitgoClient
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function pingExpress(): Response
     {
-        return $this->httpGetExpress('ping');
+        $response = $this->httpGetExpress('ping');
+        if ($response->status() >= 400) {
+            throw new BitgoGatewayException($response->json()['error'], $response->status(), $response->json());
+        }
+
+        return $response;
     }
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function ping(): Response
     {
@@ -120,6 +133,7 @@ class BitgoClient
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function generateWallet(string $coin, array $generateWalletData): ?array
     {
@@ -131,6 +145,7 @@ class BitgoClient
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function getWallet(string $coin, ?string $walletId): ?array
     {
@@ -142,6 +157,7 @@ class BitgoClient
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function generateAddressOnWallet(string $coin, string $walletId, ?string $label = null): ?array
     {
@@ -153,6 +169,7 @@ class BitgoClient
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function addWalletWebhook(string $coin, string $walletId, int $numConfirmations = 0, ?string $callbackUrl = null): ?array
     {
@@ -169,6 +186,7 @@ class BitgoClient
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function getWalletTransfers(string $coin, string $walletId, ?array $params = []): ?array
     {
@@ -181,6 +199,7 @@ class BitgoClient
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function getWalletTransfer(string $coin, string $walletId, string $transferId): ?array
     {
@@ -192,6 +211,7 @@ class BitgoClient
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function getAllWallets(?string $coin = null, ?array $params = []): ?array
     {
@@ -206,6 +226,7 @@ class BitgoClient
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function sendTransactionToMany(string $coin, string $walletId, array $transferParams): ?array
     {
@@ -217,6 +238,7 @@ class BitgoClient
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function getMaximumSpendable(string $coin, string $walletId, ?array $params = []): ?array
     {
@@ -228,6 +250,7 @@ class BitgoClient
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function listWalletTransfers(string $coin, string $walletId): ?array
     {
@@ -239,6 +262,7 @@ class BitgoClient
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function consolidate(string $coin, string $walletId, ?array $params = []): ?array
     {

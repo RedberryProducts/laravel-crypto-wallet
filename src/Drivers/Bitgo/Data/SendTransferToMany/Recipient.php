@@ -8,7 +8,7 @@ class Recipient extends Data
 {
     public function __construct(
         public string $address,
-        public string $amount,
+        public int $amount,
         public ?string $tokenName = null,
         public ?TokenData $tokenData = null,
     ) {}

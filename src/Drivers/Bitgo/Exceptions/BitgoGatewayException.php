@@ -6,8 +6,11 @@ use Exception;
 
 class BitgoGatewayException extends Exception
 {
-    public function __construct($message = 'Gateway Exception', $code = 500, ?Exception $previous = null)
+    public array $response = [];
+
+    public function __construct($message, $code, ?array $response = [], ?Exception $previous = null)
     {
+        $this->response = $response;
         parent::__construct($message, $code, $previous);
     }
 }

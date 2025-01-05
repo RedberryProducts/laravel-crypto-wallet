@@ -2,6 +2,7 @@
 
 namespace RedberryProducts\CryptoWallet\Drivers\Bitgo\Modules;
 
+use Illuminate\Http\Client\ConnectionException;
 use RedberryProducts\CryptoWallet\Drivers\Bitgo\BitgoClient;
 use RedberryProducts\CryptoWallet\Drivers\Bitgo\Contracts\WalletContract;
 use RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\Address\Address;
@@ -46,6 +47,7 @@ class Wallet extends WalletDto implements WalletContract
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function generate(string $label, string $passphrase, string $enterpriseId, array $options = []): self
     {
@@ -71,6 +73,7 @@ class Wallet extends WalletDto implements WalletContract
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function get(): self
     {
@@ -81,6 +84,7 @@ class Wallet extends WalletDto implements WalletContract
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function addWebhook(int $numConfirmations = 0, ?string $callbackUrl = null): WebhookData
     {
@@ -91,6 +95,7 @@ class Wallet extends WalletDto implements WalletContract
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function generateAddress(?string $label = null): Address
     {
@@ -101,6 +106,7 @@ class Wallet extends WalletDto implements WalletContract
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function getTransfer(string $transferId): Transfer
     {
@@ -113,6 +119,7 @@ class Wallet extends WalletDto implements WalletContract
      * @return WalletDto[]
      *
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function listAll(?string $coin = null, ?array $params = []): array
     {
@@ -125,6 +132,7 @@ class Wallet extends WalletDto implements WalletContract
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function getMaximumSpendable(?array $params = []): MaximumSpendable
     {
@@ -137,6 +145,7 @@ class Wallet extends WalletDto implements WalletContract
      * @return Transfer[]
      *
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function getTransfers(?array $params = []): array
     {
@@ -149,6 +158,7 @@ class Wallet extends WalletDto implements WalletContract
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function sendTransferToMany(SendToManyRequest $sendToManyRequest): ?array
     {
@@ -163,6 +173,7 @@ class Wallet extends WalletDto implements WalletContract
 
     /**
      * @throws BitgoGatewayException
+     * @throws ConnectionException
      */
     public function consolidate(?array $params): ?array
     {

@@ -65,7 +65,7 @@ return [
             'testnet' => env('BITGO_TESTNET', true),
             'api_key' => env('BITGO_API_KEY'),
             'express_api_url' => env('BITGO_EXPRESS_API_URL'),
-            'default_coin' => env('BITGO_DEFAULT_COIN', 'tbtc'),
+            'default_coin' => env('BITGO_DEFAULT_COIN', 'tbtc4'),//This is not a typo or just a result of a lazy developer :). BitGo is moving to Testnet4, so the Bitcoin testnet is now TBTC4.
             'webhook_callback_url' => env('BITGO_WEBHOOK_CALLBACK'),
         ],
     ],

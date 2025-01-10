@@ -1,6 +1,12 @@
 <?php
 
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\Address\Address;
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\MaximumSpendable;
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\SendTransferToMany\Recipient;
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\SendTransferToMany\SendToManyRequest;
 use RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\Transfer;
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\Wallet;
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\WebhookData;
 use RedberryProducts\CryptoWallet\Drivers\Bitgo\Exceptions\BitgoGatewayException;
 use RedberryProducts\CryptoWallet\WalletManager;
 
@@ -8,7 +14,7 @@ it(/**
  * @throws BitgoGatewayException
  */ 'can generate wallet', function () {
     $wallet = WalletManager::bitgo('tbtc')
-        ->generate('testing label', 'testing pass', '64065d3743b252a0e029e2faa945e233');
+        ->generate('testing label', 'testing pass', 'enterprise-id');
 
     expect($wallet)
         ->toBeObject()
@@ -44,7 +50,7 @@ it('can generate address on the wallet', function () {
         ->generateAddress('testing label');
 
     expect($address)
-        ->toBeInstanceOf(\RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\Address\Address::class)
+        ->toBeInstanceOf(Address::class)
         ->toHaveProperty('id')
         ->toHaveProperty('address')
         ->toHaveProperty('coin', 'tbtc');
@@ -62,12 +68,12 @@ it('can get wallet transfer', function () {
 
 it('can generate wallet with webhook', function () {
     $webhook = WalletManager::bitgo('tbtc')
-        ->generate('wallet with webhook', 'testing pass', '64065d3743b252a0e029e2faa945e233')
+        ->generate('wallet with webhook', 'testing pass', 'enterprise-id')
         ->addWebhook(6, 'https://www.blockchain.com/');
 
     expect($webhook)
         ->toBeObject()
-        ->toBeInstanceOf(\RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\WebhookData::class)
+        ->toBeInstanceOf(WebhookData::class)
         ->toHaveProperty('coin', 'tbtc')
         ->toHaveProperty('url', 'https://www.blockchain.com/');
 
@@ -87,16 +93,16 @@ it('can list all the available wallets', function () {
     expect($wallets)
         ->toBeArray()
         ->and($wallets[0])
-        ->toBeInstanceOf(\RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\Wallet::class)
+        ->toBeInstanceOf(Wallet::class)
         ->toHaveProperties(['coin', 'id']);
 });
 
 it('can send transaction', closure: function () {
 
-    $sendTransferData = new \RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\SendTransferToMany\SendToManyRequest(
+    $sendTransferData = new SendToManyRequest(
         recipients: [
-            new \RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\SendTransferToMany\Recipient(address: 'address-1', amount: 333),
-            new \RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\SendTransferToMany\Recipient(address: 'address-2', amount: 333),
+            new Recipient(address: 'address-1', amount: 333),
+            new Recipient(address: 'address-2', amount: 333),
         ],
         walletPassphrase: 'test',
     );
@@ -110,7 +116,7 @@ it('can get a maximum spendable amount of the wallet', function () {
     ]);
 
     expect($result)
-        ->toBeInstanceOf(\RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\MaximumSpendable::class)
+        ->toBeInstanceOf(MaximumSpendable::class)
         ->toHaveProperties(['coin', 'maximumSpendable']);
 });
 

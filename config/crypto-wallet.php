@@ -1,8 +1,15 @@
 <?php
 
+use RedberryProducts\CryptoWallet\Drivers\Bitgo\BitgoDriver;
+use RedberryProducts\CryptoWallet\Drivers\Solana\SolanaDriver;
+
 return [
+    'default' => env('CRYPTO_WALLET_DRIVER', 'bitgo'),
+
     'drivers' => [
         'bitgo' => [
+            'driver' => BitgoDriver::class,
+
             /*
             |--------------------------------------------------------------------------
             | Use Mocks
@@ -64,6 +71,31 @@ return [
             |
             */
             'webhook_callback_url' => env('BITGO_WEBHOOK_CALLBACK', null),
+        ],
+
+        'solana' => [
+            'driver' => SolanaDriver::class,
+            'network' => env('SOLANA_NETWORK', 'devnet'),
+            'rpc_url' => env('SOLANA_RPC_URL', 'https://api.devnet.solana.com'),
+            'commitment' => env('SOLANA_COMMITMENT', 'confirmed'),
+            'timeout' => (int) env('SOLANA_RPC_TIMEOUT', 10),
+            'retry_times' => (int) env('SOLANA_RPC_RETRY_TIMES', 2),
+            'assets' => [
+                'SOL' => [
+                    'type' => 'native',
+                    'decimals' => 9,
+                ],
+                'USDC' => [
+                    'type' => 'spl',
+                    'mint' => env('SOLANA_USDC_MINT'),
+                    'decimals' => 6,
+                ],
+                'USDT' => [
+                    'type' => 'spl',
+                    'mint' => env('SOLANA_USDT_MINT'),
+                    'decimals' => 6,
+                ],
+            ],
         ],
     ],
 

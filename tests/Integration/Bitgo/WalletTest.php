@@ -24,7 +24,7 @@ it(/**
 
 });
 
-//it can get wallet by id
+// it can get wallet by id
 it('can get wallet by id', function () {
     $wallet = WalletManager::bitgo('tbtc', 'wallet-id')
         ->get();

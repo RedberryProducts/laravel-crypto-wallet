@@ -126,7 +126,7 @@ class Wallet extends WalletDto implements WalletContract
         $wallets = $this->client->getAllWallets($coin, $params);
 
         return array_map(function ($element) {
-            return \RedberryProducts\CryptoWallet\Drivers\Bitgo\Data\Wallet::from($element);
+            return WalletDto::from($element);
         }, $wallets['wallets']);
     }
 

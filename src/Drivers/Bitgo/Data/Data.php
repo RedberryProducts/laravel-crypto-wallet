@@ -23,12 +23,12 @@ abstract class Data
 
             if (property_exists($dto, $key)) {
                 if (is_array($value)) {
-                    //use $key as class name and call fromArray static method
+                    // use $key as class name and call fromArray static method
                     $dtoClass = Str::studly($key);
-                    //find class in the same namespace where the extending class is
+                    // find class in the same namespace where the extending class is
                     $dtoClass = '\\'.__NAMESPACE__.'\\'.$dtoClass;
 
-                    //if class exists
+                    // if class exists
                     if (class_exists($dtoClass)) {
                         $dto->$key = $dtoClass::fromArray($value);
                     } else {

@@ -5,21 +5,15 @@
 2. [Installation](#installation)
 3. [Configuration](#configuration)
 4. [Usage](#usage)
-5. [Testing](#testing)
-6. [Contributing](#contributing)
+5. [Solana Showcase App](#solana-showcase-app)
+6. [Testing](#testing)
+7. [Contributing](#contributing)
 
 ## Introduction
 
-Laravel Crypto Wallet is a flexible Laravel package that provides a **unified factory class** for interacting with various crypto wallet drivers. Currently, it supports **Bitgo**, with plans to add more drivers and introduce a **unified facade** in future releases.
+Laravel Crypto Wallet provides provider-specific drivers behind a common Laravel registry. It supports custodial BitGo wallet operations and non-custodial Solana payment collection for SOL and configured SPL tokens such as USDC and USDT.
 
-> Our Future Plan:
->
->
-> Enhance Bitgo support, add more drivers, unify the Wallet facade, offer driver selection via configuration—and still let you work directly with each driver.
->
-
-> Note: The unified facade is not yet available, but it will be introduced in a future release
->
+The Solana driver never accepts or stores private keys. Each tenant supplies and controls its public merchant address.
 
 Currently, we support **Bitgo** for operations such as:
 
@@ -55,7 +49,7 @@ For more information on Bitgo Express Docker, refer to the official [Bitgo Expre
 
 ## Configuration
 
-By default, the configuration for the Bitgo driver is included under the `drivers.bitgo` key. Once published, you’ll find the config at `config/cryptowallet.php`. Below is an example of what the Bitgo config might look like:
+Published configuration is available at `config/crypto-wallet.php`. BitGo settings live under `drivers.bitgo`; Solana settings live under `drivers.solana`.
 
 ```php
 return [
@@ -86,7 +80,72 @@ BITGO_WEBHOOK_CALLBACK = https://yourapp.com/webhook/bitgo
 
 Adjust these environment variables according to your needs.
 
+Solana configuration uses exact network-specific token mints:
+
+```dotenv
+SOLANA_NETWORK=devnet
+SOLANA_RPC_URL=https://api.devnet.solana.com
+SOLANA_COMMITMENT=confirmed
+SOLANA_USDC_MINT=your-devnet-usdc-mint
+SOLANA_USDT_MINT=your-devnet-usdt-mint
+```
+
 ## Usage
+
+### Solana payments
+
+```php
+use RedberryProducts\CryptoWallet\Data\CreatePaymentRequest;
+use RedberryProducts\CryptoWallet\WalletManager;
+
+$solana = WalletManager::solana(); // or WalletManager::driver('solana')
+
+$validation = $solana->validateAddress($tenant->solana_address);
+$verified = $solana->verifyAddressOwnership(
+    address: $tenant->solana_address,
+    message: $challenge->message,
+    signature: $submittedSignature,
+);
+
+$merchant = $solana->forMerchant($tenant->solana_address);
+$solBalance = $merchant->getBalance('SOL');
+$usdtBalance = $merchant->getBalance('USDT');
+
+$paymentRequest = $merchant->createPaymentRequest(new CreatePaymentRequest(
+    amount: '25.00',
+    asset: 'USDT',
+    merchantReference: (string) $order->id,
+    label: $tenant->name,
+    message: "Payment for order {$order->id}",
+    expiresAt: now()->addMinutes(15),
+));
+```
+
+The host application renders `$paymentRequest->url` as a QR code and persists its immutable recipient, reference, asset, mint, network, amount, base units, and expiry. The `merchantReference` is the host application's order ID; it is not automatically written on-chain.
+
+Verify one polling attempt from a queued job:
+
+```php
+use RedberryProducts\CryptoWallet\Data\ExpectedPayment;
+
+$result = WalletManager::solana()->verifyPayment(new ExpectedPayment(
+    network: $payment->network,
+    recipientAddress: $payment->recipient_address,
+    referenceAddress: $payment->reference_address,
+    asset: $payment->asset,
+    mintAddress: $payment->mint_address,
+    amount: $payment->expected_amount,
+    baseUnits: $payment->expected_base_units,
+));
+```
+
+Results are `pending`, `confirmed`, `failed`, or `mismatch`. The host owns polling/backoff, checkout expiration, late-payment policy, order transitions, and a unique database constraint on transaction signatures.
+
+For multitenancy, create a fresh immutable context with `forMerchant()` for each tenant. Shared drivers never retain a tenant address. SOL, USDC, USDT, and custom tokens use exact decimal strings and network-specific mint configuration.
+
+For sandbox testing, use a local Solana validator or Devnet and configure `SOLANA_NETWORK`, `SOLANA_RPC_URL`, `SOLANA_USDC_MINT`, and `SOLANA_USDT_MINT`. Never reuse Mainnet mints implicitly on another network. Production should use a managed Mainnet RPC endpoint.
+
+The Solana driver is receive/read/verify only. It does not create custodial wallets, accept seed phrases, sign transfers, sweep funds, or issue refunds.
 
 ### Bitgo Driver
 
@@ -228,6 +287,12 @@ use RedberryProducts\CryptoWallet\ExchangeRateManager;
 $tbtcRates = ExchangeRateManager::bitgo()->getByCoin('tbtc');
 ```
 
+## Solana Showcase App
+
+A companion Laravel Inertia React showcase application demonstrates the complete Devnet flow: verify control of a merchant wallet, inspect balances, create SOL or configured SPL-token Solana Pay requests, pay from a second wallet, verify the transaction through RPC, and inspect transfer history. It is maintained as a separate application alongside this package.
+
+The showcase is non-custodial and Devnet-only. Its guide covers local setup, externally created USDC-like and USDT-like demo mints, wallet funding, the opt-in live smoke test, and all verification commands.
+
 ## Testing
 
 We use [Pest PHP](https://pestphp.com/) to ensure all functionalities work as expected. You can find our test files under `tests/`. To run the tests:
@@ -236,6 +301,13 @@ We use [Pest PHP](https://pestphp.com/) to ensure all functionalities work as ex
 ./vendor/bin/pest
 # or
 php artisan test
+```
+
+Default tests mock Solana RPC. Network smoke tests are explicitly opt-in:
+
+```bash
+SOLANA_DEVNET_TEST=1 SOLANA_TEST_MERCHANT_ADDRESS=... ./vendor/bin/pest --group=solana-devnet
+SOLANA_LOCAL_TEST=1 SOLANA_TEST_MERCHANT_ADDRESS=... ./vendor/bin/pest --group=solana-local
 ```
 
 ## Contributing

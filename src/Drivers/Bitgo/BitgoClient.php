@@ -176,7 +176,7 @@ class BitgoClient
         $callbackUrl = $callbackUrl ?: config('crypto-wallet.drivers.bitgo.webhook_callback_url');
         $endpoint = "$coin/wallet/$walletId/webhooks";
         $response = $this->httpPostExpress($endpoint, [
-            'type' => 'transfer', //TODO::should be dynamic
+            'type' => 'transfer', // TODO::should be dynamic
             'url' => $callbackUrl,
             'numConfirmations' => $numConfirmations,
         ]);
